@@ -6,7 +6,7 @@
   # Default value, can be overridden
   defaultIsMinimal = false;
 
-  # Function to get secrets or null values
+  # Function to get secrets or default values
   getSecrets = isMinimal:
     if !isMinimal && inputs ? nix-secrets
     then inputs.nix-secrets
@@ -14,7 +14,8 @@
       userFullName = null;
       domain = null;
       email = null;
-      networking = null;
+      networking = {
+      };
     };
 in rec {
   isMinimal = defaultIsMinimal;
@@ -27,7 +28,7 @@ in rec {
   isWork = false; # Used to indicate a host that uses work resources
   scaling = "1"; # Used to indicate what scaling to use. Floating point number
 
-  # Include secrets or null values based on isMinimal
+  # Include secrets or default values based on isMinimal
   userFullName = (getSecrets isMinimal).userFullName;
   domain = (getSecrets isMinimal).domain;
   email = (getSecrets isMinimal).email;
