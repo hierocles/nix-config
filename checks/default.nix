@@ -41,7 +41,7 @@
         enable = true;
       };
 
-      end-of-file-fixer.enable = true;
+      #end-of-file-fixer.enable = true; # alejandra handles this
     };
   };
 }
