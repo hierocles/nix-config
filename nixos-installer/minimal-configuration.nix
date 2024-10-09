@@ -4,14 +4,12 @@
   configLib,
   configVars,
   ...
-}:
-let
-  sshPort = configVars.networking.ports.tcp.ssh;
-in
-{
-  imports = [ (configLib.relativeToRoot "hosts/common/users/${configVars.username}") ];
+}: let
+  sshPort = configVars.networking.ports.tcp.ssh or "22";
+in {
+  imports = [(configLib.relativeToRoot "hosts/common/users/${configVars.username}")];
 
-  fileSystems."/boot".options = [ "umask=0077" ]; # Removes permissions and security warnings.
+  fileSystems."/boot".options = ["umask=0077"]; # Removes permissions and security warnings.
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot = {
     enable = true;
@@ -31,7 +29,7 @@ in
     qemuGuest.enable = true;
     openssh = {
       enable = true;
-      ports = [ sshPort ];
+      ports = [sshPort];
       settings.PermitRootLogin = "yes";
     };
   };
@@ -45,7 +43,7 @@ in
     };
   };
 
-  environment.systemPackages = builtins.attrValues { inherit (pkgs) wget curl rsync; };
+  environment.systemPackages = builtins.attrValues {inherit (pkgs) wget curl rsync;};
 
   nix.settings = {
     experimental-features = [
