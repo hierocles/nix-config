@@ -91,20 +91,11 @@ in {
     };
   };
 
-  # needed unlock LUKS on secondary drives
-  # use partition UUID
-  # https://wiki.nixos.org/wiki/Full_Disk_Encryption#Unlocking_secondary_drives
-  # TODO: Figure out what this means
-  environment.etc.crypttab.text = lib.optionalString (!configVars.isMinimal) ''
-    cryptextra UUID=d90345b2-6673-4f8e-a5ef-dc764958ea14 /luks-secondary-unlock.key
-    cryptvms UUID=ce5f47f8-d5df-4c96-b2a8-766384780a91 /luks-secondary-unlock.key
-  '';
-
   #TODO: move this stuff to separate file but define theme itself per host
   # host-wide styling
   stylix = {
     enable = true;
-    image = /home/ta/sync/wallpaper/1126712.png;
+    image = /home/dylan/sync/wallpaper/wallpaper.png;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
     opacity = {
       applications = 1.0;
