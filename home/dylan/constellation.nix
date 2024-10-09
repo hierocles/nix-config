@@ -1,8 +1,4 @@
-{
-  configVars,
-  lib,
-  ...
-}: {
+{configVars, ...}: {
   imports = [
     #################### Required Configs ####################
     common/core # required
@@ -24,5 +20,5 @@
   };
 
   # Disable impermanence
-  home.persistence = lib.mkForce {};
+  #home.persistence = lib.mkForce {};
 }
