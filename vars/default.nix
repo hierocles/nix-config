@@ -8,7 +8,7 @@
 
   # Function to get secrets or null values
   getSecrets = isMinimal:
-    if !isMinimal
+    if !isMinimal && inputs ? nix-secrets
     then inputs.nix-secrets
     else {
       userFullName = null;
