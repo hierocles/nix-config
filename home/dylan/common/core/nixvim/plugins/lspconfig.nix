@@ -21,7 +21,7 @@
             clangd = {
               enable = true;
             };
-            lua-ls = {
+            lua_ls = {
               enable = true;
               extraOptions = {
                 settings = {
@@ -64,7 +64,7 @@
                 };
               };
             };
-            ts-ls = {
+            ts_ls = {
               enable = false;
               filetypes = [
                 "javascript"

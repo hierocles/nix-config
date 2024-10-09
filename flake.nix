@@ -52,7 +52,7 @@
 
     # Theming
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:danth/stylix?rev=63426a59e714c4389c5a8e559dee05a0087a3043"; # https://github.com/danth/stylix/issues/571
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

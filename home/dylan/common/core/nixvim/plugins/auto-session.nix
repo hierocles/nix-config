@@ -11,17 +11,17 @@
     programs.nixvim.plugins = {
       auto-session = {
         enable = true;
-        logLevel = "error";
-        autoSave.enabled = true;
-        autoRestore.enabled = false;
-        autoSession = {
-          suppressDirs = [
+        settings = {
+          log_level = "error";
+          use_git_branch = true;
+          suppressed_dirs = [
             "~/"
             "~/downloads"
             "~/doc"
             "~/tmp"
           ];
-          useGitBranch = true; # include git branch name in session name to differentiate btwn sessions for different branches
+          auto_restore = true;
+          auto_save = true;
         };
       };
     };
