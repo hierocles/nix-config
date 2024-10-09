@@ -1,5 +1,5 @@
 {
-  description = "EmergentMind's Nix-Config";
+  description = "Dylan's Nix-Config";
 
   inputs = {
     #################### Official NixOS and HM Package Sources ####################
@@ -52,140 +52,103 @@
     };
 
     # Windows management
-    # for now trying to avoid this one because I want stability for my wm
-    # this is the hyprland development flake package / unstable
-    # hyprland = {
-    #   url = "github:hyprwm/hyprland";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    #   hyprland-plugins = {
-    #   url = "github:hyprwm/hyprland-plugins";
-    #   inputs.hyprland.follows = "hyprland";
-    # };
+    hyprland = {
+      url = "github:hyprwm/hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
 
     #################### Personal Repositories ####################
 
     # Private secrets repo.  See ./docs/secretsmgmt.md
     # Authenticate via ssh and use shallow clone
     nix-secrets = {
-      url = "git+ssh://git@gitlab.com/emergentmind/nix-secrets.git?ref=main&shallow=1";
-      inputs = { };
+      url = "git+ssh://git@github.com/hierocles/nix-secrets.git?ref=main&shallow=1";
+      inputs = {};
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      stylix,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      forAllSystems = nixpkgs.lib.genAttrs [
-        "x86_64-linux"
-        #"aarch64-darwin"
-      ];
-      inherit (nixpkgs) lib;
-      configVars = import ./vars { inherit inputs lib; };
-      configLib = import ./lib { inherit lib; };
-      specialArgs = {
-        inherit
-          inputs
-          outputs
-          configVars
-          configLib
-          nixpkgs
-          ;
-      };
-    in
-    {
-      # Custom modules to enable special functionality for nixos or home-manager oriented configs.
-      #nixosModules = { inherit (import ./modules/nixos); };
-      #homeManagerModules = { inherit (import ./modules/home-manager); };
-      nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    stylix,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    forAllSystems = nixpkgs.lib.genAttrs [
+      "x86_64-linux"
+    ];
+    inherit (nixpkgs) lib;
+    configVars = import ./vars {inherit inputs lib;};
+    configLib = import ./lib {inherit lib;};
+    specialArgs = {
+      inherit
+        inputs
+        outputs
+        configVars
+        configLib
+        nixpkgs
+        ;
+    };
+  in {
+    # Custom modules to enable special functionality for nixos or home-manager oriented configs.
+    #nixosModules = { inherit (import ./modules/nixos); };
+    #homeManagerModules = { inherit (import ./modules/home-manager); };
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
 
-      # Custom modifications/overrides to upstream packages.
-      overlays = import ./overlays { inherit inputs outputs; };
+    # Custom modifications/overrides to upstream packages.
+    overlays = import ./overlays {inherit inputs outputs;};
 
-      # Custom packages to be shared or upstreamed.
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        import ./pkgs { inherit pkgs; }
-      );
+    # Custom packages to be shared or upstreamed.
+    packages = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./pkgs {inherit pkgs;}
+    );
 
-      checks = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        import ./checks { inherit inputs system pkgs; }
-      );
+    checks = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        import ./checks {inherit inputs system pkgs;}
+    );
 
-      # Nix formatter available through 'nix fmt' https://nix-community.github.io/nixpkgs-fmt
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+    # Nix formatter available through 'nix fmt' https://nix-community.github.io/nixpkgs-fmt
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
 
-      # ################### DevShell ####################
-      #
-      # Custom shell for bootstrapping on new hosts, modifying nix-config, and secrets management
+    # ################### DevShell ####################
+    #
+    # Custom shell for bootstrapping on new hosts, modifying nix-config, and secrets management
 
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-          checks = self.checks.${system};
-        in
-        import ./shell.nix { inherit checks pkgs; }
-      );
+    devShells = forAllSystems (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+        checks = self.checks.${system};
+      in
+        import ./shell.nix {inherit checks pkgs;}
+    );
 
-      #################### NixOS Configurations ####################
-      #
-      # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
+    #################### NixOS Configurations ####################
+    #
+    # Building configurations available through `just rebuild` or `nixos-rebuild --flake .#hostname`
 
-      nixosConfigurations = {
-        # Main
-        ghost = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            stylix.nixosModules.stylix
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/ghost
-          ];
-        };
-        # Qemu VM dev lab
-        grief = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/grief
-          ];
-        };
-        # Qemu VM deployment test lab
-        guppy = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/guppy
-          ];
-        };
-        # Theatre - ASUS VivoPC VM40B-S081M
-        gusto = lib.nixosSystem {
-          inherit specialArgs;
-          modules = [
-            stylix.nixosModules.stylix
-            home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
-            ./hosts/gusto
-          ];
-        };
+    nixosConfigurations = {
+      # Main
+      constellation = lib.nixosSystem {
+        inherit specialArgs;
+        modules = [
+          stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {home-manager.extraSpecialArgs = specialArgs;}
+          ./hosts/constellation
+        ];
       };
     };
+  };
 }
