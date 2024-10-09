@@ -763,10 +763,10 @@
     },
     "nix-secrets": {
       "locked": {
-        "lastModified": 1728509004,
-        "narHash": "sha256-z9NyZNL5GXuyfGdWPiXclabJ5K7DnYYP+G6VmlobILw=",
+        "lastModified": 1728510444,
+        "narHash": "sha256-W1QuaMlz51OZuJflL99V6Dtq84wBrCfkZEHpLl/3Cvs=",
         "ref": "main",
-        "rev": "904c1ad718129765ceec2f838280bf1d20b089bf",
+        "rev": "62ec3bc41e4e6ce4d1f3e887d7145f83d14cb087",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/hierocles/nix-secrets.git"
