@@ -45,6 +45,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    alejandra = {
+      url = "github:kamadorueda/alejandra";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Theming
     stylix = {
       url = "github:danth/stylix";
@@ -59,6 +64,12 @@
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
+    };
+
+    # Networking
+    vpn-confinement = {
+      url = "github:Maroka-chan/VPN-Confinement";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     #################### Personal Repositories ####################
@@ -76,6 +87,8 @@
     nixpkgs,
     home-manager,
     stylix,
+    vpn-confinement,
+    alejandra,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -145,6 +158,7 @@
         modules = [
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
+          vpn-confinement.nixosModules.default
           {home-manager.extraSpecialArgs = specialArgs;}
           ./hosts/constellation
         ];
