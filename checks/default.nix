@@ -3,11 +3,10 @@
   pkgs,
   system,
   ...
-}:
-{
+}: {
   pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
     src = ./.;
-    default_stages = [ "pre-commit" ];
+    default_stages = ["pre-commit"];
     hooks = {
       check-added-large-files.enable = true;
       check-case-conflicts.enable = true;
@@ -25,7 +24,7 @@
         description = "forbids any submodules in the repository";
         language = "fail";
         entry = "submodules are not allowed in this repository:";
-        types = [ "directory" ];
+        types = ["directory"];
       };
 
       destroyed-symlinks = {
@@ -34,13 +33,10 @@
         description = "detects symlinks which are changed to regular files with a content of a path which that symlink was pointing to.";
         package = inputs.pre-commit-hooks.checks.${system}.pre-commit-hooks;
         entry = "${inputs.pre-commit-hooks.checks.${system}.pre-commit-hooks}/bin/destroyed-symlinks";
-        types = [ "symlink" ];
+        types = ["symlink"];
       };
 
-      nixfmt-rfc-style = {
-        enable = true;
-        #        package = pkgs.nixfmt-rfc-style;
-      };
+      alejandra.enable = true;
       shfmt.enable = true;
 
       end-of-file-fixer.enable = true;
