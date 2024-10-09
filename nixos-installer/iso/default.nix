@@ -4,12 +4,10 @@
   configLib,
   configVars,
   ...
-}:
-let
-  sshPort = configVars.networking.ports.tcp.ssh;
-in
-{
-  imports = [ (configLib.relativeToRoot "hosts/common/users/${configVars.username}") ];
+}: let
+  sshPort = configVars.networking.ports.tcp.ssh ? 22;
+in {
+  imports = [(configLib.relativeToRoot "hosts/common/users/${configVars.username}")];
 
   # The default compression-level is (6) and takes too long on some machines (>30m). 3 takes <2m
   isoImage.squashfsCompression = "zstd -Xcompression-level 3";
@@ -30,7 +28,7 @@ in
   services = {
     qemuGuest.enable = true;
     openssh = {
-      ports = [ sshPort ];
+      ports = [sshPort];
       settings.PermitRootLogin = lib.mkForce "yes";
     };
   };
@@ -48,7 +46,7 @@ in
   };
 
   systemd = {
-    services.sshd.wantedBy = lib.mkForce [ "multi-user.target" ];
+    services.sshd.wantedBy = lib.mkForce ["multi-user.target"];
     # gnome power settings to not turn off screen
     targets = {
       sleep.enable = false;
