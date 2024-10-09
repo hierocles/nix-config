@@ -133,7 +133,7 @@
     );
 
     # Nix formatter available through 'nix fmt' https://nix-community.github.io/nixpkgs-fmt
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+    formatter = forAllSystems (system: alejandra.defaultPackage.${system});
 
     # ################### DevShell ####################
     #
