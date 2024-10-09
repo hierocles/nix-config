@@ -16,7 +16,7 @@
       detect-private-keys.enable = true;
       fix-byte-order-marker.enable = true;
       mixed-line-endings.enable = true;
-      trim-trailing-whitespace.enable = true;
+      trim-trailing-whitespace.enable = false; # alejandra style is to have trailing whitespace
 
       forbid-submodules = {
         enable = true;
@@ -37,7 +37,9 @@
       };
 
       alejandra.enable = true;
-      shfmt.enable = true;
+      shfmt = {
+        enable = true;
+      };
 
       end-of-file-fixer.enable = true;
     };
