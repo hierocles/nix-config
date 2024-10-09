@@ -6,14 +6,13 @@
   configLib,
   configVars,
   ...
-}:
-let
-
+}: let
   #FIXME: switch this and other isntances to configLib function
   homeDirectory =
-    if pkgs.stdenv.isLinux then "/home/${configVars.username}" else "/Users/${configVars.username}";
-in
-{
+    if pkgs.stdenv.isLinux
+    then "/home/${configVars.username}"
+    else "/Users/${configVars.username}";
+in {
   imports = lib.flatten [
     (configLib.scanPaths ./.)
     (configLib.relativeToRoot "hosts/common/users/${configVars.username}")
@@ -25,7 +24,7 @@ in
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 20d --keep 20";
-    flake = "${homeDirectory}/nix-config";
+    flake = "${homeDirectory}/src/nix-config";
   };
 
   # This should be handled by config.security.pam.sshAgentAuth.enable
