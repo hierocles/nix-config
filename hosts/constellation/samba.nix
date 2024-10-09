@@ -1,12 +1,13 @@
 # Once this service is started for the first time
 # add any required users and passwords
 # `sudo smbpasswd -a <user>` and follow prompts
-
-{ pkgs, configVars, ... }:
-let
-  localPrefix = configVars.networking.subnets.prefix.lan;
-in
 {
+  pkgs,
+  configVars,
+  ...
+}: let
+  localPrefix = configVars.networking.subnets.prefix.lan;
+in {
   networking.firewall = {
     enable = true;
     allowPing = true;
@@ -24,18 +25,16 @@ in
       global = {
         "workgroup" = "WORKGROUP";
         #TODO confirm
-        "server string" = "mediashare";
-        "netbios name" = "mediashare";
+        "server string" = "datapool";
+        "netbios name" = "datapool";
         "security" = "user";
-        #"use sendfile" = "yes";
-        #"max protocol" = "smb2";
         "hosts allow" = "${localPrefix} 127.0.0.1 localhost";
         "hosts deny" = "0.0.0.0/0";
         "guest account" = "nobody";
         "map to guest" = "bad user";
       };
       "private" = {
-        "path" = "/mnt/extra/mediashare";
+        "path" = "/mnt/datapool";
         "browseable" = "yes";
         "read only" = "no";
         "guest ok" = "no";
