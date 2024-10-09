@@ -13,6 +13,7 @@
   configVars,
   configLib,
   pkgs,
+  config,
   ...
 }: let
   isUnstable = config.boot.zfs.package == pkgs.zfsUnstable;
