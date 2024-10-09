@@ -15,6 +15,12 @@
       domain = null;
       email = null;
       networking = {
+        # Set a custom SSH port here if desired
+        # ports = {
+        #   tcp = {
+        #     ssh = <custom value>;
+        #   };
+        # };
       };
     };
 in rec {
