@@ -167,9 +167,9 @@ function nixos_anywhere() {
 	green "[Optional] Set disk encryption passphrase:"
 	read -s luks_passphrase
 	if [ -n "$luks_passphrase" ]; then
-		$ssh_root_cmd "/bin/sh -c 'echo \'$luks_passphrase\' > /tmp/disko-password'"
+		printf '%s' "$luks_passphrase" | $ssh_root_cmd "cat > /tmp/disko-password"
 	else
-		$ssh_root_cmd "/bin/sh -c 'echo \'passphrase\' > /tmp/disko-password'"
+		$ssh_root_cmd "echo 'passphrase' > /tmp/disko-password"
 	fi
 	green "Generating hardware-config.nix for $target_hostname and adding it to the nix-config."
 	$ssh_root_cmd "nixos-generate-config --no-filesystems --root /mnt"
