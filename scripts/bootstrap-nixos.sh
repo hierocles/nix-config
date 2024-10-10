@@ -38,13 +38,12 @@ function yellow() {
 }
 
 function yes_or_no() {
-	echo -en "\x1B[32m[+] $* [y/n] (default: y): \x1B[0m"
 	while true; do
-		read -rp "" yn
-		yn=${yn:-y}
-		case $yn in
+		read -rp "$* [y/n] (default: y): " yn
+		case ${yn:-y} in
 		[Yy]*) return 0 ;;
 		[Nn]*) return 1 ;;
+		*) echo "Please answer yes or no." ;;
 		esac
 	done
 }
@@ -217,22 +216,25 @@ function update_sops_file() {
 function generate_host_age_key() {
 	green "Generating an age key based on the new ssh_host_ed25519_key."
 
-	target_key=$(
-		ssh-keyscan -p "$ssh_port" -t ssh-ed25519 "$target_destination" 2>&1 |
-			grep ssh-ed25519 |
-			cut -f2- -d" " ||
-			(
-				red "Failed to get ssh key. Host down?"
-				exit 1
-			)
-	)
+	target_key=$(ssh-keyscan -p "$ssh_port" -t ssh-ed25519 "$target_destination" 2>&1) || {
+		red "Failed to get ssh key. Error: $target_key"
+		return 1
+	}
+
+	target_key=$(echo "$target_key" | grep ssh-ed25519 | cut -f2- -d" ")
+
+	if [ -z "$target_key" ]; then
+		red "No ssh-ed25519 key found in the scan result."
+		return 1
+	fi
+
 	host_age_key=$(nix shell nixpkgs#ssh-to-age.out -c sh -c "echo $target_key | ssh-to-age")
 
 	if grep -qv '^age1' <<<"$host_age_key"; then
 		red "The result from generated age key does not match the expected format."
 		yellow "Result: $host_age_key"
 		yellow "Expected format: age10000000000000000000000000000000000000000000000000000000000"
-		exit 1
+		return 1
 	else
 		echo "$host_age_key"
 	fi
@@ -250,7 +252,7 @@ function generate_user_age_key() {
 		user_age_key=$(nix shell nixpkgs#age -c "age-keygen")
 		readarray -t entries <<<"$user_age_key"
 		secret_key=${entries[2]}
-		public_key=$(echo "${entries[1]}" | rg key: | cut -f2 -d: | xargs)
+		public_key=$(echo "${entries[1]}" | grep 'key:' | cut -f2 -d: | xargs)
 		key_name="${target_user}_${target_hostname}"
 		# shellcheck disable=SC2116,SC2086
 		sops --set "$(echo '["user_age_keys"]["'${key_name}'"] "'$secret_key'"')" "$secret_file"
@@ -290,7 +292,10 @@ if [ -n "$luks_secondary_drive_labels" ]; then
 fi
 
 if yes_or_no "Generate host (ssh-based) age key?"; then
-	generate_host_age_key
+	if ! generate_host_age_key; then
+		red "Failed to generate host age key. Exiting."
+		exit 1
+	fi
 	updated_age_keys=1
 fi
 
@@ -313,7 +318,39 @@ if yes_or_no "Add ssh host fingerprints for git{lab,hub}? If this is the first t
 		home_path="/home/$target_user"
 	fi
 	green "Adding ssh host fingerprints for git{lab,hub}"
-	$ssh_cmd "mkdir -p $home_path/.ssh/; ssh-keyscan -t ssh-ed25519 gitlab.com github.com >>$home_path/.ssh/known_hosts"
+
+	# Correct ownership and permissions of .ssh directory
+	$ssh_cmd "sudo mkdir -p $home_path/.ssh && \
+			  sudo chown $target_user:$target_user $home_path/.ssh && \
+			  sudo chmod 700 $home_path/.ssh" || {
+		red "Failed to create or set permissions on $home_path/.ssh directory. Error: $?"
+		return 1
+	}
+
+	# Create known_hosts file with correct permissions
+	$ssh_cmd "touch $home_path/.ssh/known_hosts && \
+			  chmod 600 $home_path/.ssh/known_hosts" || {
+		red "Failed to create or set permissions on known_hosts file. Error: $?"
+		return 1
+	}
+
+	# Add fingerprints
+	$ssh_cmd "ssh-keyscan -v -T 10 -t ssh-ed25519 gitlab.com github.com >> $home_path/.ssh/known_hosts 2>&1" || {
+		red "Failed to add fingerprints to known_hosts. Error: $?"
+		yellow "Output: $($ssh_cmd 'cat $home_path/.ssh/known_hosts')"
+		return 1
+	}
+
+	# Check if fingerprints were actually added
+	if $ssh_cmd "grep -q 'gitlab.com\|github.com' $home_path/.ssh/known_hosts"; then
+		green "Successfully added fingerprints."
+	else
+		red "Fingerprints were not added to known_hosts."
+		yellow "This might be due to network issues. Please check your internet connection and try again."
+		return 1
+	fi
+
+	green "Successfully added fingerprints and set correct permissions."
 fi
 
 if yes_or_no "Do you want to copy your full nix-config and nix-secrets to $target_hostname?"; then
