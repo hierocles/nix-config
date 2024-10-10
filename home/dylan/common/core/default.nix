@@ -88,6 +88,7 @@
       wev # show wayland events. also handy for detecting keypress codes
       wget # downloader
       zip # zip compression
+      nil # nix language server
       ;
   };
 

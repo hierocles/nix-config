@@ -24,7 +24,7 @@ in {
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 20d --keep 20";
-    flake = "${homeDirectory}/src/nix-config";
+    flake = "${homeDirectory}/nix-config";
   };
 
   # This should be handled by config.security.pam.sshAgentAuth.enable
