@@ -15,7 +15,7 @@
         position = "top";
         height = 30;
         output = [
-          "HDMI-1"
+          "HDMI-A-1"
         ];
         modules-left = [
           "hyprland/workspaces"
@@ -54,7 +54,6 @@
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         };
         "network" = {
-          format-wifi = "{essid} ({signalStrength}%) ";
           format-ethernet = "{ipaddr} ";
           tooltip-format = "{ifname} via {gwaddr} ";
           format-linked = "{ifname} (No IP) ";

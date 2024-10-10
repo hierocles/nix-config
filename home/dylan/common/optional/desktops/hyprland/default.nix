@@ -39,20 +39,20 @@
       # Configure your Display resolution, offset, scale and Monitors here, use `hyprctl monitors` to get the info.
       # https://wiki.hyprland.org/Configuring/Monitors/
       monitor = [
-        "HDMI-1, 3440x1440@60, 0x0, 1"
+        "HDMI-A-1, 3440x1440@144, 0x0, 1"
       ];
 
       workspace = [
-        "1, monitor:HDMI-1, default:true, persistent:true"
-        "2, monitor:HDMI-1, default:true"
-        "3, monitor:HDMI-1, default:true"
-        "4, monitor:HDMI-1, default:true"
-        "5, monitor:HDMI-1, default:true"
-        "6, monitor:HDMI-1, default:true"
-        "7, monitor:HDMI-1, default:true"
-        "8, monitor:HDMI-1, default:true"
-        "9, monitor:HDMI-1, default:true"
-        "0, monitor:HDMI-1, default:true"
+        "1, monitor:HDMI-A-1, default:true, persistent:true"
+        "2, monitor:HDMI-A-1, default:true"
+        "3, monitor:HDMI-A-1, default:true"
+        "4, monitor:HDMI-A-1, default:true"
+        "5, monitor:HDMI-A-1, default:true"
+        "6, monitor:HDMI-A-1, default:true"
+        "7, monitor:HDMI-A-1, default:true"
+        "8, monitor:HDMI-A-1, default:true"
+        "9, monitor:HDMI-A-1, default:true"
+        "0, monitor:HDMI-A-1, default:true"
       ];
 
       #FIXME-rice colors conflict with stylix
