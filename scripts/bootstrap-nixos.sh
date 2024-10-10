@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+# Check for required commands
+for cmd in rsync ssh scp git nix sops; do
+	if ! command -v $cmd &>/dev/null; then
+		echo "Error: $cmd is required but not installed. Please install it and try again."
+		exit 1
+	fi
+done
+
 # User variables
 target_hostname=""
 target_destination=""
@@ -51,7 +59,7 @@ function yes_or_no() {
 
 function sync() {
 	# $1 = user, $2 = source, $3 = destination
-	rsync -av --filter=':- .gitignore' -e "ssh -l $1 -oport=${ssh_port}" $2 $1@${target_destination}:
+	rsync -av --filter=':- .gitignore' -e "ssh -l $1 -oport=${ssh_port}" "$2" "$1@${target_destination}:"
 }
 
 function help_and_exit() {
@@ -167,13 +175,21 @@ function nixos_anywhere() {
 	green "[Optional] Set disk encryption passphrase:"
 	read -s luks_passphrase
 	if [ -n "$luks_passphrase" ]; then
-		$ssh_root_cmd "/bin/sh -c 'echo \'$luks_passphrase\' > /tmp/disko-password'"
+		$ssh_root_cmd "/bin/sh -c 'echo \"$luks_passphrase\" > /tmp/disko-password'"
 	else
-		$ssh_root_cmd "/bin/sh -c 'echo \'passphrase\' > /tmp/disko-password'"
+		$ssh_root_cmd "/bin/sh -c 'echo \"passphrase\" > /tmp/disko-password'"
 	fi
 	green "Generating hardware-config.nix for $target_hostname and adding it to the nix-config."
 	$ssh_root_cmd "nixos-generate-config --no-filesystems --root /mnt"
-	$scp_cmd root@"$target_destination":/mnt/etc/nixos/hardware-configuration.nix "${git_root}"/hosts/"$target_hostname"/hardware-configuration.nix
+	if [[ -f "${git_root}"/hosts/"$target_hostname"/hardware-configuration.nix ]]; then
+		if yes_or_no "hardware-configuration.nix already exists for $target_hostname. Overwrite?"; then
+			$scp_cmd root@"$target_destination":/mnt/etc/nixos/hardware-configuration.nix "${git_root}"/hosts/"$target_hostname"/hardware-configuration.nix
+		else
+			yellow "Skipping hardware-configuration.nix update"
+		fi
+	else
+		$scp_cmd root@"$target_destination":/mnt/etc/nixos/hardware-configuration.nix "${git_root}"/hosts/"$target_hostname"/hardware-configuration.nix
+	fi
 
 	# --extra-files here picks up the ssh host key we generated earlier and puts it onto the target machine
 	SHELL=/bin/sh nix run github:nix-community/nixos-anywhere -- --ssh-port "$ssh_port" --extra-files "$temp" --flake .#"$target_hostname" root@"$target_destination"
@@ -181,9 +197,9 @@ function nixos_anywhere() {
 	echo "Updating ssh host fingerprint at $target_destination to ~/.ssh/known_hosts"
 	ssh-keyscan -p "$ssh_port" "$target_destination" >>~/.ssh/known_hosts || true
 
-	if [ -n "$persist_dir" ]; then
-		$ssh_root_cmd "cp /etc/machine-id $persist_dir/etc/machine-id || true"
-		$ssh_root_cmd "cp -R /etc/ssh/ $persist_dir/etc/ssh/ || true"
+	if [[ -n $persist_dir ]]; then
+		$ssh_root_cmd "cp /etc/machine-id \"$persist_dir/etc/machine-id\" || true"
+		$ssh_root_cmd "cp -R /etc/ssh/ \"$persist_dir/etc/ssh/\" || true"
 	fi
 	cd -
 }
@@ -250,7 +266,7 @@ function generate_user_age_key() {
 		user_age_key=$(nix shell nixpkgs#age -c "age-keygen")
 		readarray -t entries <<<"$user_age_key"
 		secret_key=${entries[2]}
-		public_key=$(echo "${entries[1]}" | rg key: | cut -f2 -d: | xargs)
+		public_key=$(echo "${entries[1]}" | grep key: | cut -f2 -d: | xargs)
 		key_name="${target_user}_${target_hostname}"
 		# shellcheck disable=SC2116,SC2086
 		sops --set "$(echo '["user_age_keys"]["'${key_name}'"] "'$secret_key'"')" "$secret_file"

@@ -6,6 +6,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     # Declarative partitioning and formatting
     disko.url = "github:nix-community/disko";
+    nix-secrets = {
+      url = "git+ssh://git@github.com/hierocles/nix-secrets.git?ref=main&shallow=1";
+      inputs = {};
+    };
   };
 
   outputs = {
