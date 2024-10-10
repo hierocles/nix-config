@@ -19,6 +19,9 @@
       
       _1password
       _1password-gui
+      # IDEs
+      
+      code-cursor
       ;
   };
 }
