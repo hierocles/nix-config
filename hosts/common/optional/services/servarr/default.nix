@@ -40,7 +40,7 @@ in {
   systemd.tmpfiles.rules = [
     "d ${mediaDirectory} 0775 root ${mediaGroup} -"
     "d ${mediaDirectory}/library/movies 0755 streamer ${mediaGroup} -"
-    "d ${mediaDirectory}/library/tv 0755 streamer ${mediaGroup} -"
+    "d ${mediaDirectory}/library/shows 0755 streamer ${mediaGroup} -"
     "d ${mediaDirectory}/torrents 0755 torrenter ${mediaGroup} -"
     "d ${mediaDirectory}/torrents/.incomplete 0755 torrenter ${mediaGroup} -"
     "d ${mediaDirectory}/torrents/.watch 0755 torrenter ${mediaGroup} -"
