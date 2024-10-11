@@ -2,10 +2,10 @@
   config,
   pkgs,
   configVars,
-  mediaDirectory,
   ...
 }: let
   vpnPort = configVars.wireguard.vpnPort;
+  mediaDirectory = "/mnt/datapool";
 in {
   sops.secrets.transmission = {
     owner = "torrenter";

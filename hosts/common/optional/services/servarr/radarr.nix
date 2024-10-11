@@ -1,4 +1,6 @@
-{mediaGroup, ...}: {
+{...}: let
+  mediaGroup = "media";
+in {
   services.radarr = {
     enable = true;
     openFirewall = true;
