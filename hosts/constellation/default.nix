@@ -53,6 +53,8 @@ in {
 
       #################### Host-specific Optional Configs ####################
       "hosts/common/optional/services/openssh.nix" # allow remote SSH access
+      "hosts/common/optional/services/wg-quick.nix" # wireguard VPN quick setup
+      "hosts/common/optional/services/vpn-confinement.nix" # wireguard VPN confinement
       "hosts/common/optional/libvirt.nix" # vm tools
       "hosts/common/optional/nvtop.nix" # GPU monitor (not available in home-manager)
       "hosts/common/optional/thunar.nix" # file manager
