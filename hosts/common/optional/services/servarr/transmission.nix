@@ -1,8 +1,8 @@
 {
-  pkgs,
   config,
-  mediaDirectory,
+  pkgs,
   configVars,
+  mediaDirectory,
   ...
 }: {
   sops.secrets.transmission = {
