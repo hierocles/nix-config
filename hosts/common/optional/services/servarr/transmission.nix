@@ -5,7 +5,7 @@
   configVars,
   ...
 }: {
-  config.sops.secrets.transmission = {
+  sops.secrets.transmission = {
     owner = "torrenter";
     group = "torrenter";
     mode = "0400";
