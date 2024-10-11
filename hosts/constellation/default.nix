@@ -78,10 +78,9 @@ in {
     hostId = "9a5b5e9c"; # Required for ZFS
     networkmanager.enable = true;
     enableIPv6 = false;
-    nat = {
+    firewall = {
       enable = true;
-      internalInterfaces = ["enp3s0"];
-      externalInterface = "wg0";
+      allowedTCPPorts = [32400];
     };
   };
 
