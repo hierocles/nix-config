@@ -8,7 +8,7 @@
 }: let
   handle = configVars.handle;
   publicGitEmail = configVars.gitHubEmail;
-  publicKey = "${config.home.homeDirectory}/.ssh/dylan.pub";
+  publicKey = "${config.home.homeDirectory}/.ssh/id_constellation.pub";
   username = configVars.username;
 in {
   programs.git = {
@@ -46,6 +46,6 @@ in {
   # NOTE: To verify github.com update commit signatures, you need to manually import
   # https://github.com/web-flow.gpg... would be nice to do that here
   home.file.".ssh/allowed_signers".text = ''
-    ${publicGitEmail} ${lib.fileContents (configLib.relativeToRoot "hosts/common/users/${username}/keys/dylan.pub")}
+    ${publicGitEmail} ${lib.fileContents (configLib.relativeToRoot "hosts/common/users/${username}/keys/id_constellation.pub")}
   '';
 }
