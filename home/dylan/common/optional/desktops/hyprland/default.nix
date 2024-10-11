@@ -39,7 +39,7 @@
       # Configure your Display resolution, offset, scale and Monitors here, use `hyprctl monitors` to get the info.
       # https://wiki.hyprland.org/Configuring/Monitors/
       monitor = [
-        "HDMI-A-1, 3440x1440@144, 0x0, 1"
+        "HDMI-A-1, 3440x1440@50, 0x0, 1"
       ];
 
       workspace = [
