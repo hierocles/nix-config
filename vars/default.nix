@@ -5,6 +5,7 @@
     domain
     email
     networking
+    wireguard
     ;
 
   username = "dylan";
