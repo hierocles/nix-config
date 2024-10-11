@@ -106,6 +106,13 @@ in {
             tls.certResolver = "letsencrypt";
             middlewares = ["plex-auth"];
           };
+          tautulli = {
+            rule = "Host(`tautulli.${domain}`)";
+            service = "tautulli";
+            entryPoints = ["websecure"];
+            tls.certResolver = "letsencrypt";
+            middlewares = ["authelia"];
+          };
         };
         services = {
           authelia.loadBalancer.servers = [{url = "http://127.0.0.1:9091";}];
@@ -114,6 +121,7 @@ in {
           jellyseerr.loadBalancer.servers = [{url = "http://127.0.0.1:5055";}];
           bazarr.loadBalancer.servers = [{url = "http://127.0.0.1:6767";}];
           plex.loadBalancer.servers = [{url = "http://127.0.0.1:32400";}];
+          tautulli.loadBalancer.servers = [{url = "http://127.0.0.1:8181";}];
         };
         middlewares = {
           authelia = {

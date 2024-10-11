@@ -10,4 +10,14 @@
     openFirewall = true;
     group = "streamer";
   };
+
+  networking.nat = {
+    forwardedPorts = [
+      {
+        sourcePort = 32400;
+        destinationPort = 32400;
+        protocol = "tcp";
+      }
+    ];
+  };
 }
