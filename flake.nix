@@ -66,6 +66,10 @@
       inputs.hyprland.follows = "hyprland";
     };
 
+    hyprhook = {
+      url = "github:Hyprhook/Hyprhook";
+      inputs.hyprland.follows = "hyprland";
+    };
     # Networking
     vpn-confinement = {
       url = "github:Maroka-chan/VPN-Confinement";

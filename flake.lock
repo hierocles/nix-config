@@ -577,6 +577,31 @@
         "type": "github"
       }
     },
+    "hyprhook": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ],
+        "systems": [
+          "hyprhook",
+          "hyprland",
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1722540018,
+        "narHash": "sha256-Ndz0dHaktGuyKtZUhut650vfExhUjemA4Y7QYaHipVI=",
+        "owner": "Hyprhook",
+        "repo": "Hyprhook",
+        "rev": "8ac86dfc8a387b6d1b795174ae3186115a8eac4b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Hyprhook",
+        "repo": "Hyprhook",
+        "type": "github"
+      }
+    },
     "hyprland": {
       "inputs": {
         "aquamarine": "aquamarine",
@@ -977,6 +1002,7 @@
         "disko": "disko",
         "hardware": "hardware",
         "home-manager": "home-manager",
+        "hyprhook": "hyprhook",
         "hyprland": "hyprland",
         "hyprland-plugins": "hyprland-plugins",
         "nix-secrets": "nix-secrets",

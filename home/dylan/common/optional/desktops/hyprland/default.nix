@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }: {
   imports = [
@@ -23,7 +24,9 @@
       ];
     };
 
-    # plugins = [];
+    plugins = [
+      inputs.hyprhook.packages.${pkgs.system}.hyprhook
+    ];
 
     settings = {
       env = [
