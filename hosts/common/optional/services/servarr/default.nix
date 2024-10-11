@@ -12,13 +12,13 @@
   };
 in {
   imports = [
-    (lib.recursiveUpdate (baseConfig (import ./jellyseerr.nix)))
-    (lib.recursiveUpdate (baseConfig (import ./plex.nix)))
-    (lib.recursiveUpdate (baseConfig (import ./prowlarr.nix)))
-    (lib.recursiveUpdate (baseConfig (import ./bazarr.nix {inherit mediaGroup;})))
-    (lib.recursiveUpdate (baseConfig (import ./radarr.nix {inherit mediaGroup;})))
-    (lib.recursiveUpdate (baseConfig (import ./sonarr.nix {inherit mediaGroup;})))
-    (lib.recursiveUpdate (baseConfig (import ./transmission.nix {inherit mediaDirectory;})))
+    (lib.recursiveUpdate baseConfig (import ./jellyseerr.nix))
+    (lib.recursiveUpdate baseConfig (import ./plex.nix))
+    (lib.recursiveUpdate baseConfig (import ./prowlarr.nix))
+    (lib.recursiveUpdate baseConfig (import ./bazarr.nix {inherit mediaGroup;}))
+    (lib.recursiveUpdate baseConfig (import ./radarr.nix {inherit mediaGroup;}))
+    (lib.recursiveUpdate baseConfig (import ./sonarr.nix {inherit mediaGroup;}))
+    (lib.recursiveUpdate baseConfig (import ./transmission.nix {inherit mediaDirectory;}))
   ];
 
   users.groups = {
