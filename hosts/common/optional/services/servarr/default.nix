@@ -1,9 +1,4 @@
-{
-  configVars,
-  pkgs,
-  config,
-  ...
-}: let
+let
   mediaDirectory = "/mnt/datapool";
   mediaGroup = "media";
 in {
@@ -14,7 +9,7 @@ in {
     (import ./bazarr.nix {inherit mediaGroup;})
     (import ./radarr.nix {inherit mediaGroup;})
     (import ./sonarr.nix {inherit mediaGroup;})
-    (import ./transmission.nix {inherit mediaDirectory configVars pkgs config;})
+    (import ./transmission.nix {inherit mediaDirectory;})
   ];
 
   users.groups = {
