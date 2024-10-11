@@ -1,4 +1,4 @@
-{
+{configVars, ...}: {
   services.plex = {
     enable = true;
     openFirewall = true;
@@ -14,9 +14,9 @@
   networking.nat = {
     forwardedPorts = [
       {
-        sourcePort = 32400;
-        destinationPort = 32400;
-        protocol = "tcp";
+        sourcePort = configVars.networking.nat.plex.sourcePort;
+        destinationPort = configVars.networking.nat.plex.destinationPort;
+        protocol = configVars.networking.nat.plex.protocol;
       }
     ];
   };
