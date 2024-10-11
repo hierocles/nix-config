@@ -59,10 +59,10 @@
   };
 in {
   xdg.mime.enable = true;
+  xdg.configFile."mimeapps.list".force = true;
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = associations;
   xdg.mimeApps.associations.added = associations;
-
   home.packages = builtins.attrValues {
     inherit
       (pkgs)
