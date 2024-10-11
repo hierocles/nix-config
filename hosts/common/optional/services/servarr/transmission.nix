@@ -4,7 +4,9 @@
   configVars,
   mediaDirectory,
   ...
-}: {
+}: let
+  vpnPort = configVars.wireguard.vpnPort;
+in {
   sops.secrets.transmission = {
     owner = "torrenter";
     group = "torrenter";
@@ -31,7 +33,7 @@
     openRPCPort = true;
     openPeerPorts = true;
     settings = {
-      peer-port = configVars.wireguard.vpnPort;
+      peer-port = vpnPort;
       download-dir = "${mediaDirectory}/torrents";
       incomplete-dir-enabled = true;
       incomplete-dir = "${mediaDirectory}/torrents/.incomplete";
