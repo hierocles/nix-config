@@ -10,15 +10,25 @@
   baseConfig = {
     inherit config lib pkgs configVars;
   };
+
+  # Helper function to handle both function and set returns
+  importModule = file: args: let
+    imported = import file;
+    result =
+      if builtins.isFunction imported
+      then imported (baseConfig // args)
+      else imported;
+  in
+    lib.recursiveUpdate baseConfig result;
 in {
   imports = [
-    (lib.recursiveUpdate baseConfig (import ./jellyseerr.nix))
-    (lib.recursiveUpdate baseConfig (import ./plex.nix))
-    (lib.recursiveUpdate baseConfig (import ./prowlarr.nix))
-    (lib.recursiveUpdate baseConfig (import ./bazarr.nix {inherit mediaGroup;}))
-    (lib.recursiveUpdate baseConfig (import ./radarr.nix {inherit mediaGroup;}))
-    (lib.recursiveUpdate baseConfig (import ./sonarr.nix {inherit mediaGroup;}))
-    (lib.recursiveUpdate baseConfig (import ./transmission.nix {inherit mediaDirectory;}))
+    (importModule ./jellyseerr.nix {})
+    (importModule ./plex.nix {})
+    (importModule ./prowlarr.nix {})
+    (importModule ./bazarr.nix {inherit mediaGroup;})
+    (importModule ./radarr.nix {inherit mediaGroup;})
+    (importModule ./sonarr.nix {inherit mediaGroup;})
+    (importModule ./transmission.nix {inherit mediaDirectory;})
   ];
 
   users.groups = {
