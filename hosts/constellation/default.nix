@@ -10,7 +10,6 @@
 {
   inputs,
   lib,
-  configVars,
   configLib,
   pkgs,
   config,
@@ -64,6 +63,9 @@ in {
       "hosts/common/optional/services/greetd.nix" # display manager
       "hosts/common/optional/hyprland.nix" # window manager
       "hosts/common/optional/wayland.nix" # wayland components and pkgs not avaialble in home-manager
+
+      #################### *Arr ####################
+      #      "hosts/common/optional/services/servarr"
     ])
     #################### Constellation Specific ####################
     ./samba.nix
