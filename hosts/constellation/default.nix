@@ -78,6 +78,7 @@ in {
 
   boot = {
     kernelPackages = latestKernelPackage;
+    supportedFilesystems = ["zfs"];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -85,12 +86,15 @@ in {
     };
     initrd = {
       systemd.enable = true;
-      kernelModules = ["i915"];
+      kernelModules = ["i915" "zfs"];
     };
     zfs = {
+      devNodes = "/dev/disk/by-path";
       extraPools = ["datapool"];
     };
   };
+
+  services.zfs.autoScrub.enable = true;
 
   #TODO: move this stuff to separate file but define theme itself per host
   # host-wide styling
