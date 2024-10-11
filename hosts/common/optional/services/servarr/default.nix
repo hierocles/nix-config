@@ -1,34 +1,20 @@
 {
   config,
-  lib,
-  pkgs,
   configVars,
+  pkgs,
   ...
 }: let
   mediaDirectory = "/mnt/datapool";
   mediaGroup = "media";
-  baseConfig = {
-    inherit config lib pkgs configVars;
-  };
-
-  # Helper function to handle both function and set returns
-  importModule = file: args: let
-    imported = import file;
-    result =
-      if builtins.isFunction imported
-      then imported (baseConfig // args)
-      else imported;
-  in
-    lib.recursiveUpdate baseConfig result;
 in {
   imports = [
-    (importModule ./jellyseerr.nix {})
-    (importModule ./plex.nix {})
-    (importModule ./prowlarr.nix {})
-    (importModule ./bazarr.nix {inherit mediaGroup;})
-    (importModule ./radarr.nix {inherit mediaGroup;})
-    (importModule ./sonarr.nix {inherit mediaGroup;})
-    (importModule ./transmission.nix {inherit mediaDirectory;})
+    ./jellyseerr.nix
+    ./plex.nix
+    ./prowlarr.nix
+    (import ./bazarr.nix {inherit mediaGroup;})
+    (import ./radarr.nix {inherit mediaGroup;})
+    (import ./sonarr.nix {inherit mediaGroup;})
+    (import ./transmission.nix {inherit config pkgs configVars mediaDirectory;})
   ];
 
   users.groups = {
