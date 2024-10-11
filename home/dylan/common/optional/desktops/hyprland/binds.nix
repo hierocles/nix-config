@@ -109,7 +109,6 @@
 
         "ALT,-,togglespecialworkspace"
         "SHIFTALT,-,movetoworkspacesilent,special"
-        "ALT,h,Toggle Binds Help,exec,$HOME/.local/bin/which-key -b"
 
         #################### Media Controls ####################
         # Output
