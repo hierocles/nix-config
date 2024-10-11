@@ -24,9 +24,8 @@
       ];
     };
 
-    plugins = [
-      inputs.hyprhook.packages.${pkgs.system}.hyprhook
-    ];
+    #plugins = [
+    #];
 
     settings = {
       env = [
