@@ -5,6 +5,11 @@
   configVars,
   ...
 }: {
+  config.sops.secrets.transmission = {
+    owner = config.services.transmission.user;
+    group = config.services.transmission.group;
+    mode = "0400";
+  };
   systemd.services.transmission.vpnConfinement = {
     enable = true;
     vpnNamespace = "wg";
