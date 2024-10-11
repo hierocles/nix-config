@@ -16,7 +16,7 @@
       {
         sourcePort = configVars.networking.nat.plex.sourcePort;
         destination = configVars.networking.nat.plex.destination;
-        protocol = configVars.networking.nat.plex.protocol;
+        proto = configVars.networking.nat.plex.protocol;
       }
     ];
   };
