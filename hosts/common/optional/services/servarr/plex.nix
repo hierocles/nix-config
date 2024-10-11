@@ -12,7 +12,7 @@
   };
 
   networking.nat = {
-    forwardedPorts = [
+    forwardPorts = [
       {
         sourcePort = configVars.networking.nat.plex.sourcePort;
         destinationPort = configVars.networking.nat.plex.destinationPort;
