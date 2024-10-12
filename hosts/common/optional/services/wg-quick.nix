@@ -2,12 +2,24 @@
   networking.wg-quick.interfaces = {
     wg0 = {
       configFile = config.sops.secrets.wireguard.path;
-      postUp = [
-        "ip route add 192.168.15.0/24 dev wg0" # Route only VPN traffic through WireGuard
-      ];
-      postDown = [
-        "ip route del 192.168.15.0/24 dev wg0"
-      ];
+      autostart = true;
     };
+  };
+
+  # Enable IP forwarding
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
+  # Ensure wg-quick service is enabled
+  systemd.services.wg-quick-wg0 = {
+    enable = true;
+    wantedBy = ["multi-user.target"];
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+  };
+
+  # Configure firewall to allow WireGuard traffic
+  networking.firewall = {
+    allowedUDPPorts = [1637];
+    trustedInterfaces = ["wg0"];
   };
 }
