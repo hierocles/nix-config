@@ -11,4 +11,6 @@
     openFirewall = true;
     group = "streamer";
   };
+
+  users.users.streamer.extraGroups = ["video" "render"];
 }
