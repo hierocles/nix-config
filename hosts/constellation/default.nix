@@ -11,6 +11,7 @@
   inputs,
   lib,
   configLib,
+  configVars,
   pkgs,
   config,
   ...
@@ -33,6 +34,8 @@
       builtins.attrValues zfsCompatibleKernelPackages
     )
   );
+
+  plexPort = configVars.networking.nat.plex.sourcePort;
 in {
   imports = lib.flatten [
     #################### Every Host Needs This ####################
@@ -80,7 +83,7 @@ in {
     enableIPv6 = false;
     firewall = {
       enable = true;
-      allowedTCPPorts = [32400];
+      allowedTCPPorts = [plexPort];
     };
   };
 
