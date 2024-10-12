@@ -18,6 +18,11 @@
     wantedBy = ["multi-user.target"];
     after = ["network-online.target"];
     wants = ["network-online.target"];
+    preStart = ''
+      ${pkgs.iproute2}/bin/ip link delete dev wg0 2>/dev/null || true
+      ${pkgs.iproute2}/bin/ip route del 192.168.15.0/24 2>/dev/null || true
+      ${pkgs.iproute2}/bin/ip route del 10.0.0.0/8 2>/dev/null || true
+    '';
   };
 
   # Configure firewall to allow WireGuard traffic
