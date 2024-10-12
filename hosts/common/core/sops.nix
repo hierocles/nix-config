@@ -43,6 +43,7 @@ in {
       "authelia-jwt-secret" = {};
       "authelia-session-secret" = {};
       "authelia-storage-encryption-key" = {};
+      "authelia-users" = {};
     };
   };
   # The containing folders are created as root and if this is the first ~/.config/ entry,
