@@ -23,9 +23,4 @@
     allowedUDPPorts = [1637];
     trustedInterfaces = ["wg0"];
   };
-
-  # Ensure IP forwarding is enabled if not already set
-  boot.kernel.sysctl = lib.mkIf (!config.boot.kernel.sysctl ? "net.ipv4.ip_forward") {
-    "net.ipv4.ip_forward" = lib.mkDefault 1;
-  };
 }
