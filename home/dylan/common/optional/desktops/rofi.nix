@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   #TODO: Make this a proper home-manager rofi config
@@ -205,6 +206,6 @@
       pkgs.rofi-emoji
       pkgs.rofi-systemd
     ];
-    theme = "${config.xdg.configHome}/rofi/themes/gruvbox/gruvbox.rasi";
+    theme = lib.mkForce "${config.xdg.configHome}/rofi/themes/gruvbox/gruvbox.rasi";
   };
 }
