@@ -59,6 +59,7 @@
           format-linked = "{ifname} (No IP) ";
           format-disconnected = "Disconnected ⚠";
           format-alt = "{ifname}: {ipaddr}/{cidr}";
+          on-click = "networkmanager_dmenu";
         };
         "pulseaudio" = {
           "format" = "{volume}% {icon}";

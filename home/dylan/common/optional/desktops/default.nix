@@ -19,5 +19,6 @@
     pkgs.galculator # gtk based calculator
     pkgs.eww
     pkgs.jq
+    pkgs.networkmanager_dmenu # network manager via dmenu
   ];
 }
