@@ -111,10 +111,10 @@ in {
       systemd.enable = true;
       kernelModules = ["i915" "zfs"];
     };
-    zfs = {
-      devNodes = "/dev/disk/by-path";
-      extraPools = ["datapool"];
-    };
+    # zfs = {
+    #   devNodes = "/dev/disk/by-path";
+    #   extraPools = ["datapool"];
+    # };
   };
 
   services.zfs.autoScrub.enable = true;
