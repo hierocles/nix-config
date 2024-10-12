@@ -1,5 +1,5 @@
 {
-  xdg.configFile."networkmanager-dmenu/config.ini".source = ''
+  xdg.configFile."networkmanager-dmenu/config.ini".text = ''
     [dmenu]
     dmenu_command = rofi -dmenu -i -theme nmdm
     active_chars = ==
