@@ -78,9 +78,19 @@ in {
 
   networking = {
     hostName = "constellation";
-    hostId = "9a5b5e9c"; # Required for ZFS
+    hostId = "9a5b5e9c";
     networkmanager.enable = true;
-    enableIPv6 = false;
+    interfaces.enp3s0 = {
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = configVars.networking.ipv4.constellation.lanIP;
+          prefixLength = configVars.networking.ipv4.constellation.prefixLength;
+        }
+      ];
+    };
+    defaultGateway = "192.168.0.1";
+    nameservers = ["192.168.0.1"];
     firewall = {
       enable = true;
       allowedTCPPorts = [plexPort];
