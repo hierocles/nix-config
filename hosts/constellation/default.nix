@@ -36,6 +36,8 @@
   );
 
   plexPort = configVars.networking.nat.plex.sourcePort;
+  ipv4Address = configVars.networking.ipv4.constellation.lanIP;
+  ipv4PrefixLength = configVars.networking.ipv4.constellation.prefixLength;
 in {
   imports = lib.flatten [
     #################### Every Host Needs This ####################
@@ -84,8 +86,8 @@ in {
       useDHCP = false;
       ipv4.addresses = [
         {
-          address = configVars.networking.ipv4.constellation.lanIP;
-          prefixLength = configVars.networking.ipv4.constellation.prefixLength;
+          address = ipv4Address;
+          prefixLength = ipv4PrefixLength;
         }
       ];
     };
