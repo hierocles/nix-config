@@ -1,7 +1,7 @@
 {...}: {
   services.plex = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
     accelerationDevices = ["/dev/dri/renderD128"];
     user = "streamer";
     group = "streamer";
