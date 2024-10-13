@@ -44,6 +44,10 @@ in {
       "authelia-session-secret" = {};
       "authelia-storage-encryption-key" = {};
       "authelia-users" = {};
+      "ddns-updater-config" = {
+        owner = "ddns-updater";
+        group = "ddns-updater";
+      };
     };
   };
   # The containing folders are created as root and if this is the first ~/.config/ entry,

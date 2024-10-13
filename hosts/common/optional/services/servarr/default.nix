@@ -10,6 +10,7 @@ in {
     ./radarr.nix
     ./sonarr.nix
     ./transmission.nix
+    ./traefik.nix
   ];
 
   users.groups = {

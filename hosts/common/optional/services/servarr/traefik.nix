@@ -1,4 +1,3 @@
-#TODO: Add traefik service that proxies to all the arr services
 {
   config,
   configVars,
@@ -11,7 +10,53 @@ in {
   # Add SQLite to system packages
   environment.systemPackages = with pkgs; [
     sqlite
+    ddns-updater
+    argon2 # Password hashing
   ];
+
+  # Configure ddns-updater to update the DNS records for Njalla once daily
+  systemd.services.ddns-updater = {
+    enable = true;
+    description = "DDNS Updater";
+    after = ["network.target"];
+    startAt = "daily";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.ddns-updater}/bin/ddns-updater -c ${config.sops.secrets.ddns-updater-config.path}";
+      User = "ddns-updater";
+      Group = "ddns-updater";
+    };
+  };
+
+  # Update firewall settings
+  networking.firewall = {
+    allowedTCPPorts = [80 443 8000 32400 32412]; # Add 8000 for ddns-updater WebUI, 32400 for Plex Local, 32412 for Plex External
+    allowedUDPPorts = [53]; # For DNS resolution
+  };
+
+  # Create a dedicated user and group for ddns-updater
+  users.users.ddns-updater = {
+    isSystemUser = true;
+    group = "ddns-updater";
+    description = "DDNS Updater service user";
+  };
+
+  users.groups.ddns-updater = {};
+
+  # Ensure the config file has correct permissions
+  system.activationScripts = {
+    ddns-updater-permissions = ''
+      chmod 600 ${config.sops.secrets.ddns-updater-config.path}
+    '';
+  };
+
+  # Authelia user and group
+  users.users.authelia-servarr = {
+    isSystemUser = true;
+    group = "authelia-servarr";
+  };
+
+  users.groups.authelia-servarr = {};
 
   services.traefik = {
     enable = true;
@@ -19,10 +64,6 @@ in {
       entryPoints = {
         web = {
           address = ":80";
-          http.redirections.entryPoint = {
-            to = "websecure";
-            scheme = "https";
-          };
         };
         websecure = {
           address = ":443";
@@ -32,6 +73,7 @@ in {
         email = email;
         storage = "/var/lib/traefik/acme.json";
         httpChallenge.entryPoint = "web";
+        ocspStapling = true;
       };
       tls = {
         options = {
@@ -53,6 +95,13 @@ in {
     dynamicConfigOptions = {
       http = {
         routers = {
+          http-catchall = {
+            rule = "HostRegexp(`{host:.+}`) && PathPrefix(`/`) && !ClientIP(`192.168.0.0/16`)";
+            entryPoints = ["web"];
+            middlewares = ["httpsRedirect"];
+            service = "noop@internal";
+            priority = 1;
+          };
           authelia = {
             rule = "Host(`auth.${domain}``)";
             service = "authelia";
@@ -67,7 +116,7 @@ in {
               certResolver = "letsencrypt";
               options = "default";
             };
-            middlewares = ["authelia"];
+            middlewares = ["authelia" "securityHeaders"];
           };
           radarr = {
             rule = "Host(`radarr.${domain}`)";
@@ -77,7 +126,7 @@ in {
               certResolver = "letsencrypt";
               options = "default";
             };
-            middlewares = ["authelia"];
+            middlewares = ["authelia" "securityHeaders"];
           };
           jellyseerr = {
             rule = "Host(`jellyseerr.${domain}`)";
@@ -87,7 +136,7 @@ in {
               certResolver = "letsencrypt";
               options = "default";
             };
-            middlewares = ["authelia"];
+            middlewares = ["authelia" "securityHeaders"];
           };
           bazarr = {
             rule = "Host(`bazarr.${domain}`)";
@@ -97,36 +146,63 @@ in {
               certResolver = "letsencrypt";
               options = "default";
             };
-            middlewares = ["authelia"];
+            middlewares = ["authelia" "securityHeaders"];
           };
-          plex = {
+          plex-local = {
+            rule = "Host(`plex.${domain}`) && ClientIP(`192.168.0.0/16`, `10.0.0.0/8`, `172.16.0.0/12`)";
+            service = "plex-local";
+            entryPoints = ["web"];
+            priority = 2;
+          };
+          plex-external = {
             rule = "Host(`plex.${domain}`)";
-            service = "plex";
+            service = "plex-external";
             entryPoints = ["websecure"];
             tls.certResolver = "letsencrypt";
-            middlewares = ["plex-auth"];
+            priority = 1;
+            middlewares = ["securityHeaders"];
           };
           tautulli = {
             rule = "Host(`tautulli.${domain}`)";
             service = "tautulli";
             entryPoints = ["websecure"];
             tls.certResolver = "letsencrypt";
-            middlewares = ["authelia"];
+            middlewares = ["authelia" "securityHeaders"];
+          };
+          transmission = {
+            rule = "Host(`transmission.${domain}`)";
+            service = "transmission";
+            entryPoints = ["websecure"];
+            tls = {
+              certResolver = "letsencrypt";
+              options = "default";
+            };
+            middlewares = ["authelia" "securityHeaders"];
+          };
+          ddns-updater = {
+            rule = "Host(`ddns.${domain}`)";
+            service = "ddns-updater";
+            entryPoints = ["websecure"];
+            tls.certResolver = "letsencrypt";
+            middlewares = ["authelia" "securityHeaders"];
           };
         };
         services = {
-          authelia.loadBalancer.servers = [{url = "http://127.0.0.1:9091";}];
+          authelia.loadBalancer.servers = [{url = "http://127.0.0.1:9092";}];
           sonarr.loadBalancer.servers = [{url = "http://127.0.0.1:8989";}];
           radarr.loadBalancer.servers = [{url = "http://127.0.0.1:7878";}];
           jellyseerr.loadBalancer.servers = [{url = "http://127.0.0.1:5055";}];
           bazarr.loadBalancer.servers = [{url = "http://127.0.0.1:6767";}];
-          plex.loadBalancer.servers = [{url = "http://127.0.0.1:32400";}];
+          plex-local.loadBalancer.servers = [{url = "http://127.0.0.1:32400";}];
+          plex-external.loadBalancer.servers = [{url = "http://127.0.0.1:32412";}];
           tautulli.loadBalancer.servers = [{url = "http://127.0.0.1:8181";}];
+          transmission.loadBalancer.servers = [{url = "http://192.168.15.1:9091";}]; # Use the WireGuard IP
+          ddns-updater.loadBalancer.servers = [{url = "http://127.0.0.1:8000";}];
         };
         middlewares = {
           authelia = {
             forwardAuth = {
-              address = "http://127.0.0.1:9091/api/verify?rd=https://auth.${domain}/";
+              address = "http://127.0.0.1:9092/api/verify?rd=https://auth.${domain}/";
               trustForwardHeader = true;
               authResponseHeaders = [
                 "Remote-User"
@@ -136,21 +212,17 @@ in {
               ];
             };
           };
-          plex-auth = {
-            chain = {
-              middlewares = ["plex-whitelist" "authelia"];
+          securityHeaders = {
+            headers = {
+              stsSeconds = 31536000;
+              stsIncludeSubdomains = true;
+              stsPreload = true;
             };
           };
-          plex-whitelist = {
-            plugin = {
-              rewritebody = {
-                rewrites = [
-                  {
-                    regex = "^(?:(?!/web|/:/websockets/notifications).)";
-                    replacement = "";
-                  }
-                ];
-              };
+          httpsRedirect = {
+            redirectScheme = {
+              scheme = "https";
+              permanent = true;
             };
           };
         };
@@ -170,7 +242,7 @@ in {
       default_redirection_url = "https://${domain}/";
       server = {
         host = "127.0.0.1";
-        port = 9091;
+        port = 9092;
       };
       log = {
         level = "info";
@@ -189,8 +261,14 @@ in {
             policy = "bypass";
           }
           {
+            domain = ["jellyseerr.${domain}"];
+            policy = "one_factor";
+            subject = ["group:admin" "group:basic"];
+          }
+          {
             domain = ["*.${domain}"];
             policy = "one_factor";
+            subject = ["group:admin"];
           }
         ];
       };
@@ -226,7 +304,7 @@ in {
   services.redis.servers.authelia-servarr = {
     enable = true;
     user = "authelia-servarr";
-    unixSocket = "/run/authelia/redis.sock";
+    unixSocket = "/run/authelia-servarr/redis.sock";
     unixSocketPerm = 600;
   };
 

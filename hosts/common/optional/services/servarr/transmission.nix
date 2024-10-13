@@ -12,6 +12,7 @@ in {
     group = "torrenter";
     mode = "0400";
   };
+
   systemd.services.transmission.vpnConfinement = {
     enable = true;
     vpnNamespace = "wg";
@@ -40,9 +41,10 @@ in {
       watch-dir-enabled = true;
       watch-dir = "${mediaDirectory}/torrents/.watch";
       rpc-port = 9091;
+      rpc-bind-address = "192.168.15.1";
       rpc-whitelist-enabled = true;
-      rpc-whitelist = "127.0.0.1";
-      rpc-bind-address = "192.168.15.1"; # vpnConfinement
+      rpc-whitelist = "127.0.0.1,192.168.15.1,192.168.1.0/24";
+      rpc-host-whitelist-enabled = false;
       rpc-authentication-required = true;
       rpc-authentication-file = config.sops.secrets.transmission.path;
       blocklist-enabled = true;
