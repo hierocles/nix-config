@@ -11,7 +11,7 @@ in {
   environment.systemPackages = with pkgs; [
     sqlite
     ddns-updater
-    argon2 # Password hashing
+    libargon2 # Password hashing
   ];
 
   # Configure ddns-updater to update the DNS records for Njalla once daily
