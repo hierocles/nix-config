@@ -20,7 +20,9 @@ curl -s "$URL" \
 	>"$TEMP_FILE"
 
 # Extract and process JSON blocks
-cat "$TEMP_FILE" | sed -n '/^```json/,/^```/p' | sed '/^```/d' | jq -r '. | select(.trash_id != null) | "\(.trash_id),\(.name)"' >"$OUTPUT_FILE"
+sed -n '/^```json/,/^```/p' "$TEMP_FILE" |
+	sed '/^```/d' |
+	jq -r '. | select(.trash_id != null) | "\(.trash_id),\(.name)"' >"$OUTPUT_FILE"
 
 # Clean up
 rm "$TEMP_FILE"
