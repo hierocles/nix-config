@@ -22,7 +22,7 @@
       name = "trash_guides_radarr";
       runtimeInputs = [pkgs.curl pkgs.jq];
       text = ''
-        export USER_EMAIL="${configVars.email}"
+        export USER_EMAIL="${configVars.email.user}"
         ${builtins.readFile ./trash_guides_radarr.sh}
       '';
     };
@@ -30,7 +30,7 @@
       name = "trash_guides_sonarr";
       runtimeInputs = [pkgs.curl pkgs.jq];
       text = ''
-        export USER_EMAIL="${configVars.email}"
+        export USER_EMAIL="${configVars.email.user}"
         ${builtins.readFile ./trash_guides_sonarr.sh}
       '';
     };
