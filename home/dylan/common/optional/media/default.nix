@@ -6,6 +6,7 @@
       (pkgs)
       ffmpeg
       vlc
+      gruvbox-factory
       ;
   };
 }
