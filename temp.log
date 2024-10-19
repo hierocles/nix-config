@@ -1,0 +1,1055 @@
+result/libexec/overseerr/deps/overseerr
+├── babel.config.js
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── config
+│   ├── db
+│   └── logs
+├── CONTRIBUTING.md
+├── cypress
+│   ├── config
+│   │   └── settings.cypress.json
+│   ├── e2e
+│   │   ├── discover.cy.ts
+│   │   ├── login.cy.ts
+│   │   ├── movie-details.cy.ts
+│   │   ├── pull-to-refresh.cy.ts
+│   │   ├── settings
+│   │   │   ├── discover-customization.cy.ts
+│   │   │   └── general-settings.cy.ts
+│   │   ├── tv-details.cy.ts
+│   │   └── user
+│   │       ├── auto-request-settings.cy.ts
+│   │       ├── profile.cy.ts
+│   │       └── user-list.cy.ts
+│   ├── fixtures
+│   │   └── watchlist.json
+│   ├── support
+│   │   ├── commands.ts
+│   │   ├── e2e.ts
+│   │   └── index.ts
+│   └── tsconfig.json
+├── cypress.config.ts
+├── dist
+│   ├── api
+│   │   ├── animelist.js
+│   │   ├── externalapi.js
+│   │   ├── github.js
+│   │   ├── plexapi.js
+│   │   ├── plextv.js
+│   │   ├── rottentomatoes.js
+│   │   ├── servarr
+│   │   │   ├── base.js
+│   │   │   ├── radarr.js
+│   │   │   └── sonarr.js
+│   │   ├── tautulli.js
+│   │   └── themoviedb
+│   │       ├── constants.js
+│   │       ├── index.js
+│   │       └── interfaces.js
+│   ├── constants
+│   │   ├── discover.js
+│   │   ├── issue.js
+│   │   ├── media.js
+│   │   └── user.js
+│   ├── datasource.js
+│   ├── entity
+│   │   ├── DiscoverSlider.js
+│   │   ├── IssueComment.js
+│   │   ├── Issue.js
+│   │   ├── Media.js
+│   │   ├── MediaRequest.js
+│   │   ├── Season.js
+│   │   ├── SeasonRequest.js
+│   │   ├── Session.js
+│   │   ├── User.js
+│   │   ├── UserPushSubscription.js
+│   │   └── UserSettings.js
+│   ├── index.js
+│   ├── interfaces
+│   │   └── api
+│   │       ├── common.js
+│   │       ├── discoverInterfaces.js
+│   │       ├── issueInterfaces.js
+│   │       ├── mediaInterfaces.js
+│   │       ├── personInterfaces.js
+│   │       ├── plexInterfaces.js
+│   │       ├── requestInterfaces.js
+│   │       ├── serviceInterfaces.js
+│   │       ├── settingsInterfaces.js
+│   │       ├── userInterfaces.js
+│   │       └── userSettingsInterfaces.js
+│   ├── job
+│   │   └── schedule.js
+│   ├── lib
+│   │   ├── availabilitySync.js
+│   │   ├── cache.js
+│   │   ├── downloadtracker.js
+│   │   ├── email
+│   │   │   ├── index.js
+│   │   │   └── openpgpEncrypt.js
+│   │   ├── imageproxy.js
+│   │   ├── notifications
+│   │   │   ├── agents
+│   │   │   │   ├── agent.js
+│   │   │   │   ├── discord.js
+│   │   │   │   ├── email.js
+│   │   │   │   ├── gotify.js
+│   │   │   │   ├── lunasea.js
+│   │   │   │   ├── pushbullet.js
+│   │   │   │   ├── pushover.js
+│   │   │   │   ├── slack.js
+│   │   │   │   ├── telegram.js
+│   │   │   │   ├── webhook.js
+│   │   │   │   └── webpush.js
+│   │   │   └── index.js
+│   │   ├── permissions.js
+│   │   ├── scanners
+│   │   │   ├── baseScanner.js
+│   │   │   ├── plex
+│   │   │   │   └── index.js
+│   │   │   ├── radarr
+│   │   │   │   └── index.js
+│   │   │   └── sonarr
+│   │   │       └── index.js
+│   │   ├── search.js
+│   │   ├── settings.js
+│   │   └── watchlistsync.js
+│   ├── logger.js
+│   ├── middleware
+│   │   ├── auth.js
+│   │   └── clearcookies.js
+│   ├── migration
+│   │   ├── 1603944374840-InitialMigration.js
+│   │   ├── 1605085519544-SeasonStatus.js
+│   │   ├── 1606730060700-CascadeMigration.js
+│   │   ├── 1607928251245-DropImdbIdConstraint.js
+│   │   ├── 1608217312474-AddUserRequestDeleteCascades.js
+│   │   ├── 1608477467935-AddLastSeasonChangeMedia.js
+│   │   ├── 1608477467936-ForceDropImdbUniqueConstraint.js
+│   │   ├── 1609236552057-RemoveTmdbIdUniqueConstraint.js
+│   │   ├── 1610070934506-LocalUsers.js
+│   │   ├── 1610370640747-Add4kStatusFields.js
+│   │   ├── 1610522845513-AddMediaAddedFieldToMedia.js
+│   │   ├── 1611508672722-AddDisplayNameToUser.js
+│   │   ├── 1611757511674-SonarrRadarrSyncServiceFields.js
+│   │   ├── 1611801511397-AddRatingKeysToMedia.js
+│   │   ├── 1612482778137-AddResetPasswordGuidAndExpiryDate.js
+│   │   ├── 1612571545781-AddLanguageProfileId.js
+│   │   ├── 1613615266968-CreateUserSettings.js
+│   │   ├── 1613955393450-UpdateUserSettingsRegions.js
+│   │   ├── 1614334195680-AddTelegramSettingsToUserSettings.js
+│   │   ├── 1615333940450-AddPGPToUserSettings.js
+│   │   ├── 1616576677254-AddUserQuotaFields.js
+│   │   ├── 1617624225464-CreateTagsFieldonMediaRequest.js
+│   │   ├── 1617730837489-AddUserSettingsNotificationAgentsField.js
+│   │   ├── 1618912653565-CreateUserPushSubscriptions.js
+│   │   ├── 1619239659754-AddUserSettingsLocale.js
+│   │   ├── 1619339817343-AddUserSettingsNotificationTypes.js
+│   │   ├── 1634904083966-AddIssues.js
+│   │   ├── 1635079863457-AddPushbulletPushoverUserSettings.js
+│   │   ├── 1660632269368-AddWatchlistSyncUserSetting.js
+│   │   ├── 1660714479373-AddMediaRequestIsAutoRequestedField.js
+│   │   └── 1672041273674-AddDiscoverSlider.js
+│   ├── models
+│   │   ├── Collection.js
+│   │   ├── common.js
+│   │   ├── Movie.js
+│   │   ├── Person.js
+│   │   ├── Search.js
+│   │   └── Tv.js
+│   ├── routes
+│   │   ├── auth.js
+│   │   ├── collection.js
+│   │   ├── discover.js
+│   │   ├── imageproxy.js
+│   │   ├── index.js
+│   │   ├── issueComment.js
+│   │   ├── issue.js
+│   │   ├── media.js
+│   │   ├── movie.js
+│   │   ├── person.js
+│   │   ├── request.js
+│   │   ├── search.js
+│   │   ├── service.js
+│   │   ├── settings
+│   │   │   ├── discover.js
+│   │   │   ├── index.js
+│   │   │   ├── notifications.js
+│   │   │   ├── radarr.js
+│   │   │   └── sonarr.js
+│   │   ├── tv.js
+│   │   └── user
+│   │       ├── index.js
+│   │       └── usersettings.js
+│   ├── scripts
+│   │   └── prepareTestDb.js
+│   ├── subscriber
+│   │   ├── IssueCommentSubscriber.js
+│   │   ├── IssueSubscriber.js
+│   │   └── MediaSubscriber.js
+│   ├── templates
+│   │   └── email
+│   │       ├── generatedpassword
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       ├── media-issue
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       ├── media-request
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       ├── resetpassword
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       └── test-email
+│   │           ├── html.pug
+│   │           └── subject.pug
+│   ├── tsconfig.tsbuildinfo
+│   └── utils
+│       ├── appDataVolume.js
+│       ├── appVersion.js
+│       ├── asyncLock.js
+│       ├── dateHelpers.js
+│       ├── restartFlag.js
+│       └── typeHelpers.js
+├── docker-compose.yml
+├── Dockerfile
+├── Dockerfile.local
+├── docs
+│   ├── extending-overseerr
+│   │   ├── fail2ban.md
+│   │   ├── reverse-proxy.md
+│   │   └── third-party.md
+│   ├── getting-started
+│   │   └── installation.md
+│   ├── README.md
+│   ├── SUMMARY.md
+│   ├── support
+│   │   ├── faq.md
+│   │   └── need-help.md
+│   └── using-overseerr
+│       ├── notifications
+│       │   ├── discord.md
+│       │   ├── email.md
+│       │   ├── gotify.md
+│       │   ├── lunasea.md
+│       │   ├── pushbullet.md
+│       │   ├── pushover.md
+│       │   ├── README.md
+│       │   ├── slack.md
+│       │   ├── telegram.md
+│       │   ├── webhooks.md
+│       │   └── webpush.md
+│       ├── settings
+│       │   └── README.md
+│       └── users
+│           └── README.md
+├── LICENSE
+├── merged-prettier-plugin.js
+├── next.config.js
+├── next-env.d.ts
+├── node_modules -> /nix/store/x9lbwv916yik2kh1ffgkhzslms753ckb-overseerr-modules-1.33.2/deps/overseerr/node_modules
+├── overseerr -> deps/overseerr
+├── overseerr-api.yml
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── android-chrome-192x192_maskable.png
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512_maskable.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-splash-1125-2436.jpg
+│   ├── apple-splash-1136-640.jpg
+│   ├── apple-splash-1170-2532.jpg
+│   ├── apple-splash-1242-2208.jpg
+│   ├── apple-splash-1242-2688.jpg
+│   ├── apple-splash-1284-2778.jpg
+│   ├── apple-splash-1334-750.jpg
+│   ├── apple-splash-1536-2048.jpg
+│   ├── apple-splash-1620-2160.jpg
+│   ├── apple-splash-1668-2224.jpg
+│   ├── apple-splash-1668-2388.jpg
+│   ├── apple-splash-1792-828.jpg
+│   ├── apple-splash-2048-1536.jpg
+│   ├── apple-splash-2048-2732.jpg
+│   ├── apple-splash-2160-1620.jpg
+│   ├── apple-splash-2208-1242.jpg
+│   ├── apple-splash-2224-1668.jpg
+│   ├── apple-splash-2388-1668.jpg
+│   ├── apple-splash-2436-1125.jpg
+│   ├── apple-splash-2532-1170.jpg
+│   ├── apple-splash-2688-1242.jpg
+│   ├── apple-splash-2732-2048.jpg
+│   ├── apple-splash-2778-1284.jpg
+│   ├── apple-splash-640-1136.jpg
+│   ├── apple-splash-750-1334.jpg
+│   ├── apple-splash-828-1792.jpg
+│   ├── apple-touch-icon.png
+│   ├── badge-128x128.png
+│   ├── clock-icon-192x192.png
+│   ├── cog-icon-192x192.png
+│   ├── favicon-16x16.png
+│   ├── favicon-32x32.png
+│   ├── favicon.ico
+│   ├── images
+│   │   ├── overseerr_poster_not_found_logo_center.png
+│   │   ├── overseerr_poster_not_found_logo_top.png
+│   │   └── overseerr_poster_not_found.png
+│   ├── logo_full.png
+│   ├── logo_full.svg
+│   ├── logo_stacked.svg
+│   ├── offline.html
+│   ├── os_icon.svg
+│   ├── os_logo_filled.png
+│   ├── preview.jpg
+│   ├── site.webmanifest
+│   ├── sparkles-icon-192x192.png
+│   ├── sw.js
+│   └── user-icon-192x192.png
+├── README.md
+├── renovate.json
+├── server
+│   ├── api
+│   │   ├── animelist.ts
+│   │   ├── externalapi.ts
+│   │   ├── github.ts
+│   │   ├── plexapi.ts
+│   │   ├── plextv.ts
+│   │   ├── rottentomatoes.ts
+│   │   ├── servarr
+│   │   │   ├── base.ts
+│   │   │   ├── radarr.ts
+│   │   │   └── sonarr.ts
+│   │   ├── tautulli.ts
+│   │   └── themoviedb
+│   │       ├── constants.ts
+│   │       ├── index.ts
+│   │       └── interfaces.ts
+│   ├── constants
+│   │   ├── discover.ts
+│   │   ├── issue.ts
+│   │   ├── media.ts
+│   │   └── user.ts
+│   ├── datasource.ts
+│   ├── entity
+│   │   ├── DiscoverSlider.ts
+│   │   ├── IssueComment.ts
+│   │   ├── Issue.ts
+│   │   ├── MediaRequest.ts
+│   │   ├── Media.ts
+│   │   ├── SeasonRequest.ts
+│   │   ├── Season.ts
+│   │   ├── Session.ts
+│   │   ├── UserPushSubscription.ts
+│   │   ├── UserSettings.ts
+│   │   └── User.ts
+│   ├── index.ts
+│   ├── interfaces
+│   │   └── api
+│   │       ├── common.ts
+│   │       ├── discoverInterfaces.ts
+│   │       ├── issueInterfaces.ts
+│   │       ├── mediaInterfaces.ts
+│   │       ├── personInterfaces.ts
+│   │       ├── plexInterfaces.ts
+│   │       ├── requestInterfaces.ts
+│   │       ├── serviceInterfaces.ts
+│   │       ├── settingsInterfaces.ts
+│   │       ├── userInterfaces.ts
+│   │       └── userSettingsInterfaces.ts
+│   ├── job
+│   │   └── schedule.ts
+│   ├── lib
+│   │   ├── availabilitySync.ts
+│   │   ├── cache.ts
+│   │   ├── downloadtracker.ts
+│   │   ├── email
+│   │   │   ├── index.ts
+│   │   │   └── openpgpEncrypt.ts
+│   │   ├── imageproxy.ts
+│   │   ├── notifications
+│   │   │   ├── agents
+│   │   │   │   ├── agent.ts
+│   │   │   │   ├── discord.ts
+│   │   │   │   ├── email.ts
+│   │   │   │   ├── gotify.ts
+│   │   │   │   ├── lunasea.ts
+│   │   │   │   ├── pushbullet.ts
+│   │   │   │   ├── pushover.ts
+│   │   │   │   ├── slack.ts
+│   │   │   │   ├── telegram.ts
+│   │   │   │   ├── webhook.ts
+│   │   │   │   └── webpush.ts
+│   │   │   └── index.ts
+│   │   ├── permissions.ts
+│   │   ├── scanners
+│   │   │   ├── baseScanner.ts
+│   │   │   ├── plex
+│   │   │   │   └── index.ts
+│   │   │   ├── radarr
+│   │   │   │   └── index.ts
+│   │   │   └── sonarr
+│   │   │       └── index.ts
+│   │   ├── search.ts
+│   │   ├── settings.ts
+│   │   └── watchlistsync.ts
+│   ├── logger.ts
+│   ├── middleware
+│   │   ├── auth.ts
+│   │   └── clearcookies.ts
+│   ├── migration
+│   │   ├── 1603944374840-InitialMigration.ts
+│   │   ├── 1605085519544-SeasonStatus.ts
+│   │   ├── 1606730060700-CascadeMigration.ts
+│   │   ├── 1607928251245-DropImdbIdConstraint.ts
+│   │   ├── 1608217312474-AddUserRequestDeleteCascades.ts
+│   │   ├── 1608477467935-AddLastSeasonChangeMedia.ts
+│   │   ├── 1608477467936-ForceDropImdbUniqueConstraint.ts
+│   │   ├── 1609236552057-RemoveTmdbIdUniqueConstraint.ts
+│   │   ├── 1610070934506-LocalUsers.ts
+│   │   ├── 1610370640747-Add4kStatusFields.ts
+│   │   ├── 1610522845513-AddMediaAddedFieldToMedia.ts
+│   │   ├── 1611508672722-AddDisplayNameToUser.ts
+│   │   ├── 1611757511674-SonarrRadarrSyncServiceFields.ts
+│   │   ├── 1611801511397-AddRatingKeysToMedia.ts
+│   │   ├── 1612482778137-AddResetPasswordGuidAndExpiryDate.ts
+│   │   ├── 1612571545781-AddLanguageProfileId.ts
+│   │   ├── 1613615266968-CreateUserSettings.ts
+│   │   ├── 1613955393450-UpdateUserSettingsRegions.ts
+│   │   ├── 1614334195680-AddTelegramSettingsToUserSettings.ts
+│   │   ├── 1615333940450-AddPGPToUserSettings.ts
+│   │   ├── 1616576677254-AddUserQuotaFields.ts
+│   │   ├── 1617624225464-CreateTagsFieldonMediaRequest.ts
+│   │   ├── 1617730837489-AddUserSettingsNotificationAgentsField.ts
+│   │   ├── 1618912653565-CreateUserPushSubscriptions.ts
+│   │   ├── 1619239659754-AddUserSettingsLocale.ts
+│   │   ├── 1619339817343-AddUserSettingsNotificationTypes.ts
+│   │   ├── 1634904083966-AddIssues.ts
+│   │   ├── 1635079863457-AddPushbulletPushoverUserSettings.ts
+│   │   ├── 1660632269368-AddWatchlistSyncUserSetting.ts
+│   │   ├── 1660714479373-AddMediaRequestIsAutoRequestedField.ts
+│   │   └── 1672041273674-AddDiscoverSlider.ts
+│   ├── models
+│   │   ├── Collection.ts
+│   │   ├── common.ts
+│   │   ├── Movie.ts
+│   │   ├── Person.ts
+│   │   ├── Search.ts
+│   │   └── Tv.ts
+│   ├── routes
+│   │   ├── auth.ts
+│   │   ├── collection.ts
+│   │   ├── discover.ts
+│   │   ├── imageproxy.ts
+│   │   ├── index.ts
+│   │   ├── issueComment.ts
+│   │   ├── issue.ts
+│   │   ├── media.ts
+│   │   ├── movie.ts
+│   │   ├── person.ts
+│   │   ├── request.ts
+│   │   ├── search.ts
+│   │   ├── service.ts
+│   │   ├── settings
+│   │   │   ├── discover.ts
+│   │   │   ├── index.ts
+│   │   │   ├── notifications.ts
+│   │   │   ├── radarr.ts
+│   │   │   └── sonarr.ts
+│   │   ├── tv.ts
+│   │   └── user
+│   │       ├── index.ts
+│   │       └── usersettings.ts
+│   ├── scripts
+│   │   └── prepareTestDb.ts
+│   ├── subscriber
+│   │   ├── IssueCommentSubscriber.ts
+│   │   ├── IssueSubscriber.ts
+│   │   └── MediaSubscriber.ts
+│   ├── templates
+│   │   └── email
+│   │       ├── generatedpassword
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       ├── media-issue
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       ├── media-request
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       ├── resetpassword
+│   │       │   ├── html.pug
+│   │       │   └── subject.pug
+│   │       └── test-email
+│   │           ├── html.pug
+│   │           └── subject.pug
+│   ├── tsconfig.json
+│   ├── types
+│   │   ├── express.d.ts
+│   │   ├── express-session.d.ts
+│   │   └── plex-api.d.ts
+│   └── utils
+│       ├── appDataVolume.ts
+│       ├── appVersion.ts
+│       ├── asyncLock.ts
+│       ├── dateHelpers.ts
+│       ├── restartFlag.ts
+│       └── typeHelpers.ts
+├── snap
+│   └── snapcraft.yaml
+├── src
+│   ├── assets
+│   │   ├── ellipsis.svg
+│   │   ├── extlogos
+│   │   │   ├── discord.svg
+│   │   │   ├── gotify.svg
+│   │   │   ├── lunasea.svg
+│   │   │   ├── pushbullet.svg
+│   │   │   ├── pushover.svg
+│   │   │   ├── slack.svg
+│   │   │   └── telegram.svg
+│   │   ├── infinity.svg
+│   │   ├── rt_aud_fresh.svg
+│   │   ├── rt_aud_rotten.svg
+│   │   ├── rt_fresh.svg
+│   │   ├── rt_rotten.svg
+│   │   ├── services
+│   │   │   ├── imdb.svg
+│   │   │   ├── plex.svg
+│   │   │   ├── radarr.svg
+│   │   │   ├── rt.svg
+│   │   │   ├── sonarr.svg
+│   │   │   ├── tmdb.svg
+│   │   │   ├── trakt.svg
+│   │   │   └── tvdb.svg
+│   │   ├── spinner.svg
+│   │   └── tmdb_logo.svg
+│   ├── components
+│   │   ├── AirDateBadge
+│   │   │   └── index.tsx
+│   │   ├── AppDataWarning
+│   │   │   └── index.tsx
+│   │   ├── CollectionDetails
+│   │   │   └── index.tsx
+│   │   ├── Common
+│   │   │   ├── Accordion
+│   │   │   │   └── index.tsx
+│   │   │   ├── Alert
+│   │   │   │   └── index.tsx
+│   │   │   ├── Badge
+│   │   │   │   └── index.tsx
+│   │   │   ├── Button
+│   │   │   │   └── index.tsx
+│   │   │   ├── ButtonWithDropdown
+│   │   │   │   └── index.tsx
+│   │   │   ├── CachedImage
+│   │   │   │   └── index.tsx
+│   │   │   ├── ConfirmButton
+│   │   │   │   └── index.tsx
+│   │   │   ├── Header
+│   │   │   │   └── index.tsx
+│   │   │   ├── ImageFader
+│   │   │   │   └── index.tsx
+│   │   │   ├── List
+│   │   │   │   └── index.tsx
+│   │   │   ├── ListView
+│   │   │   │   └── index.tsx
+│   │   │   ├── LoadingSpinner
+│   │   │   │   └── index.tsx
+│   │   │   ├── Modal
+│   │   │   │   └── index.tsx
+│   │   │   ├── MultiRangeSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── PageTitle
+│   │   │   │   └── index.tsx
+│   │   │   ├── PlayButton
+│   │   │   │   └── index.tsx
+│   │   │   ├── ProgressCircle
+│   │   │   │   └── index.tsx
+│   │   │   ├── SensitiveInput
+│   │   │   │   └── index.tsx
+│   │   │   ├── SettingsTabs
+│   │   │   │   └── index.tsx
+│   │   │   ├── SlideCheckbox
+│   │   │   │   └── index.tsx
+│   │   │   ├── SlideOver
+│   │   │   │   └── index.tsx
+│   │   │   ├── StatusBadgeMini
+│   │   │   │   └── index.tsx
+│   │   │   ├── Table
+│   │   │   │   └── index.tsx
+│   │   │   ├── Tag
+│   │   │   │   └── index.tsx
+│   │   │   └── Tooltip
+│   │   │       └── index.tsx
+│   │   ├── CompanyCard
+│   │   │   └── index.tsx
+│   │   ├── CompanyTag
+│   │   │   └── index.tsx
+│   │   ├── Discover
+│   │   │   ├── constants.ts
+│   │   │   ├── CreateSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverMovieGenre
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverMovieKeyword
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverMovieLanguage
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverMovies
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverNetwork
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverSliderEdit
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverStudio
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverTv
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverTvGenre
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverTvKeyword
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverTvLanguage
+│   │   │   │   └── index.tsx
+│   │   │   ├── DiscoverTvUpcoming.tsx
+│   │   │   ├── DiscoverWatchlist
+│   │   │   │   └── index.tsx
+│   │   │   ├── FilterSlideover
+│   │   │   │   └── index.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── MovieGenreList
+│   │   │   │   └── index.tsx
+│   │   │   ├── MovieGenreSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── NetworkSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── PlexWatchlistSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── RecentlyAddedSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── RecentRequestsSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── StudioSlider
+│   │   │   │   └── index.tsx
+│   │   │   ├── Trending.tsx
+│   │   │   ├── TvGenreList
+│   │   │   │   └── index.tsx
+│   │   │   ├── TvGenreSlider
+│   │   │   │   └── index.tsx
+│   │   │   └── Upcoming.tsx
+│   │   ├── DownloadBlock
+│   │   │   └── index.tsx
+│   │   ├── ExternalLinkBlock
+│   │   │   └── index.tsx
+│   │   ├── GenreCard
+│   │   │   └── index.tsx
+│   │   ├── GenreTag
+│   │   │   └── index.tsx
+│   │   ├── IssueBlock
+│   │   │   └── index.tsx
+│   │   ├── IssueDetails
+│   │   │   ├── index.tsx
+│   │   │   ├── IssueComment
+│   │   │   │   └── index.tsx
+│   │   │   └── IssueDescription
+│   │   │       └── index.tsx
+│   │   ├── IssueList
+│   │   │   ├── index.tsx
+│   │   │   └── IssueItem
+│   │   │       └── index.tsx
+│   │   ├── IssueModal
+│   │   │   ├── constants.ts
+│   │   │   ├── CreateIssueModal
+│   │   │   │   └── index.tsx
+│   │   │   └── index.tsx
+│   │   ├── JSONEditor
+│   │   │   └── index.tsx
+│   │   ├── KeywordTag
+│   │   │   └── index.tsx
+│   │   ├── LanguageSelector
+│   │   │   └── index.tsx
+│   │   ├── Layout
+│   │   │   ├── index.tsx
+│   │   │   ├── LanguagePicker
+│   │   │   │   └── index.tsx
+│   │   │   ├── MobileMenu
+│   │   │   │   └── index.tsx
+│   │   │   ├── Notifications
+│   │   │   │   └── index.tsx
+│   │   │   ├── PullToRefresh
+│   │   │   │   └── index.tsx
+│   │   │   ├── SearchInput
+│   │   │   │   └── index.tsx
+│   │   │   ├── Sidebar
+│   │   │   │   └── index.tsx
+│   │   │   ├── UserDropdown
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── MiniQuotaDisplay
+│   │   │   │       └── index.tsx
+│   │   │   └── VersionStatus
+│   │   │       └── index.tsx
+│   │   ├── LoadingBar
+│   │   │   └── index.tsx
+│   │   ├── Login
+│   │   │   ├── index.tsx
+│   │   │   └── LocalLogin.tsx
+│   │   ├── ManageSlideOver
+│   │   │   └── index.tsx
+│   │   ├── MediaSlider
+│   │   │   ├── index.tsx
+│   │   │   └── ShowMoreCard
+│   │   │       └── index.tsx
+│   │   ├── MovieDetails
+│   │   │   ├── index.tsx
+│   │   │   ├── MovieCast
+│   │   │   │   └── index.tsx
+│   │   │   ├── MovieCrew
+│   │   │   │   └── index.tsx
+│   │   │   ├── MovieRecommendations.tsx
+│   │   │   └── MovieSimilar.tsx
+│   │   ├── NotificationTypeSelector
+│   │   │   ├── index.tsx
+│   │   │   └── NotificationType
+│   │   │       └── index.tsx
+│   │   ├── PermissionEdit
+│   │   │   └── index.tsx
+│   │   ├── PermissionOption
+│   │   │   └── index.tsx
+│   │   ├── PersonCard
+│   │   │   └── index.tsx
+│   │   ├── PersonDetails
+│   │   │   └── index.tsx
+│   │   ├── PlexLoginButton
+│   │   │   └── index.tsx
+│   │   ├── PWAHeader
+│   │   │   └── index.tsx
+│   │   ├── QuotaSelector
+│   │   │   └── index.tsx
+│   │   ├── RegionSelector
+│   │   │   └── index.tsx
+│   │   ├── RequestBlock
+│   │   │   └── index.tsx
+│   │   ├── RequestButton
+│   │   │   └── index.tsx
+│   │   ├── RequestCard
+│   │   │   └── index.tsx
+│   │   ├── RequestList
+│   │   │   ├── index.tsx
+│   │   │   └── RequestItem
+│   │   │       └── index.tsx
+│   │   ├── RequestModal
+│   │   │   ├── AdvancedRequester
+│   │   │   │   └── index.tsx
+│   │   │   ├── CollectionRequestModal.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── MovieRequestModal.tsx
+│   │   │   ├── QuotaDisplay
+│   │   │   │   └── index.tsx
+│   │   │   ├── SearchByNameModal
+│   │   │   │   └── index.tsx
+│   │   │   └── TvRequestModal.tsx
+│   │   ├── ResetPassword
+│   │   │   ├── index.tsx
+│   │   │   └── RequestResetLink.tsx
+│   │   ├── Search
+│   │   │   └── index.tsx
+│   │   ├── Selector
+│   │   │   └── index.tsx
+│   │   ├── ServiceWorkerSetup
+│   │   │   └── index.tsx
+│   │   ├── Settings
+│   │   │   ├── CopyButton.tsx
+│   │   │   ├── LibraryItem.tsx
+│   │   │   ├── Notifications
+│   │   │   │   ├── NotificationsDiscord.tsx
+│   │   │   │   ├── NotificationsEmail.tsx
+│   │   │   │   ├── NotificationsGotify
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── NotificationsLunaSea
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── NotificationsPushbullet
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── NotificationsPushover
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── NotificationsSlack
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── NotificationsTelegram.tsx
+│   │   │   │   ├── NotificationsWebhook
+│   │   │   │   │   └── index.tsx
+│   │   │   │   └── NotificationsWebPush
+│   │   │   │       └── index.tsx
+│   │   │   ├── RadarrModal
+│   │   │   │   └── index.tsx
+│   │   │   ├── SettingsAbout
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── Releases
+│   │   │   │       └── index.tsx
+│   │   │   ├── SettingsBadge.tsx
+│   │   │   ├── SettingsJobsCache
+│   │   │   │   └── index.tsx
+│   │   │   ├── SettingsLayout.tsx
+│   │   │   ├── SettingsLogs
+│   │   │   │   └── index.tsx
+│   │   │   ├── SettingsMain
+│   │   │   │   └── index.tsx
+│   │   │   ├── SettingsNotifications.tsx
+│   │   │   ├── SettingsPlex.tsx
+│   │   │   ├── SettingsServices.tsx
+│   │   │   ├── SettingsUsers
+│   │   │   │   └── index.tsx
+│   │   │   └── SonarrModal
+│   │   │       └── index.tsx
+│   │   ├── Setup
+│   │   │   ├── index.tsx
+│   │   │   ├── LoginWithPlex.tsx
+│   │   │   └── SetupSteps.tsx
+│   │   ├── Slider
+│   │   │   └── index.tsx
+│   │   ├── StatusBadge
+│   │   │   └── index.tsx
+│   │   ├── StatusChecker
+│   │   │   └── index.tsx
+│   │   ├── TitleCard
+│   │   │   ├── ErrorCard.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── Placeholder.tsx
+│   │   │   └── TmdbTitleCard.tsx
+│   │   ├── Toast
+│   │   │   └── index.tsx
+│   │   ├── ToastContainer
+│   │   │   └── index.tsx
+│   │   ├── TvDetails
+│   │   │   ├── index.tsx
+│   │   │   ├── Season
+│   │   │   │   └── index.tsx
+│   │   │   ├── TvCast
+│   │   │   │   └── index.tsx
+│   │   │   ├── TvCrew
+│   │   │   │   └── index.tsx
+│   │   │   ├── TvRecommendations.tsx
+│   │   │   └── TvSimilar.tsx
+│   │   ├── UserList
+│   │   │   ├── BulkEditModal.tsx
+│   │   │   ├── index.tsx
+│   │   │   └── PlexImportModal.tsx
+│   │   └── UserProfile
+│   │       ├── index.tsx
+│   │       ├── ProfileHeader
+│   │       │   └── index.tsx
+│   │       └── UserSettings
+│   │           ├── index.tsx
+│   │           ├── UserGeneralSettings
+│   │           │   └── index.tsx
+│   │           ├── UserNotificationSettings
+│   │           │   ├── index.tsx
+│   │           │   ├── UserNotificationsDiscord.tsx
+│   │           │   ├── UserNotificationsEmail.tsx
+│   │           │   ├── UserNotificationsPushbullet.tsx
+│   │           │   ├── UserNotificationsPushover.tsx
+│   │           │   ├── UserNotificationsTelegram.tsx
+│   │           │   └── UserNotificationsWebPush.tsx
+│   │           ├── UserPasswordChange
+│   │           │   └── index.tsx
+│   │           └── UserPermissions
+│   │               └── index.tsx
+│   ├── context
+│   │   ├── InteractionContext.tsx
+│   │   ├── LanguageContext.tsx
+│   │   ├── SettingsContext.tsx
+│   │   └── UserContext.tsx
+│   ├── hooks
+│   │   ├── useClickOutside.ts
+│   │   ├── useDebouncedState.ts
+│   │   ├── useDeepLinks.ts
+│   │   ├── useDiscover.ts
+│   │   ├── useInteraction.ts
+│   │   ├── useIsTouch.ts
+│   │   ├── useLocale.ts
+│   │   ├── useLockBodyScroll.ts
+│   │   ├── useRequestOverride.ts
+│   │   ├── useRouteGuard.ts
+│   │   ├── useSearchInput.ts
+│   │   ├── useSettings.ts
+│   │   ├── useUpdateQueryParams.ts
+│   │   ├── useUser.ts
+│   │   └── useVerticalScroll.ts
+│   ├── i18n
+│   │   ├── globalMessages.ts
+│   │   └── locale
+│   │       ├── ar.json
+│   │       ├── ca.json
+│   │       ├── cs.json
+│   │       ├── da.json
+│   │       ├── de.json
+│   │       ├── el.json
+│   │       ├── en.json
+│   │       ├── es.json
+│   │       ├── fr.json
+│   │       ├── he.json
+│   │       ├── hi.json
+│   │       ├── hr.json
+│   │       ├── hu.json
+│   │       ├── it.json
+│   │       ├── ja.json
+│   │       ├── lt.json
+│   │       ├── nb_NO.json
+│   │       ├── nl.json
+│   │       ├── pl.json
+│   │       ├── pt_BR.json
+│   │       ├── pt_PT.json
+│   │       ├── ro.json
+│   │       ├── ru.json
+│   │       ├── sq.json
+│   │       ├── sr.json
+│   │       ├── sv.json
+│   │       ├── zh_Hans.json
+│   │       └── zh_Hant.json
+│   ├── pages
+│   │   ├── 404.tsx
+│   │   ├── _app.tsx
+│   │   ├── collection
+│   │   │   └── [collectionId]
+│   │   │       └── index.tsx
+│   │   ├── discover
+│   │   │   ├── movies
+│   │   │   │   ├── genre
+│   │   │   │   │   └── [genreId]
+│   │   │   │   │       └── index.tsx
+│   │   │   │   ├── genres.tsx
+│   │   │   │   ├── index.tsx
+│   │   │   │   ├── keyword
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── language
+│   │   │   │   │   └── [language]
+│   │   │   │   │       └── index.tsx
+│   │   │   │   ├── studio
+│   │   │   │   │   └── [studioId]
+│   │   │   │   │       └── index.tsx
+│   │   │   │   └── upcoming.tsx
+│   │   │   ├── trending.tsx
+│   │   │   ├── tv
+│   │   │   │   ├── genre
+│   │   │   │   │   └── [genreId]
+│   │   │   │   │       └── index.tsx
+│   │   │   │   ├── genres.tsx
+│   │   │   │   ├── index.tsx
+│   │   │   │   ├── keyword
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── language
+│   │   │   │   │   └── [language]
+│   │   │   │   │       └── index.tsx
+│   │   │   │   ├── network
+│   │   │   │   │   └── [networkId]
+│   │   │   │   │       └── index.tsx
+│   │   │   │   └── upcoming.tsx
+│   │   │   └── watchlist.tsx
+│   │   ├── _document.tsx
+│   │   ├── _error.tsx
+│   │   ├── index.tsx
+│   │   ├── issues
+│   │   │   ├── index.tsx
+│   │   │   └── [issueId]
+│   │   │       └── index.tsx
+│   │   ├── login
+│   │   │   ├── index.tsx
+│   │   │   └── plex
+│   │   │       └── loading.tsx
+│   │   ├── movie
+│   │   │   └── [movieId]
+│   │   │       ├── cast.tsx
+│   │   │       ├── crew.tsx
+│   │   │       ├── index.tsx
+│   │   │       ├── recommendations.tsx
+│   │   │       └── similar.tsx
+│   │   ├── person
+│   │   │   └── [personId]
+│   │   │       └── index.tsx
+│   │   ├── profile
+│   │   │   ├── index.tsx
+│   │   │   ├── requests.tsx
+│   │   │   ├── settings
+│   │   │   │   ├── index.tsx
+│   │   │   │   ├── main.tsx
+│   │   │   │   ├── notifications
+│   │   │   │   │   ├── discord.tsx
+│   │   │   │   │   ├── email.tsx
+│   │   │   │   │   ├── pushbullet.tsx
+│   │   │   │   │   ├── pushover.tsx
+│   │   │   │   │   ├── telegram.tsx
+│   │   │   │   │   └── webpush.tsx
+│   │   │   │   ├── password.tsx
+│   │   │   │   └── permissions.tsx
+│   │   │   └── watchlist.tsx
+│   │   ├── requests
+│   │   │   └── index.tsx
+│   │   ├── resetpassword
+│   │   │   ├── [guid]
+│   │   │   │   └── index.tsx
+│   │   │   └── index.tsx
+│   │   ├── search.tsx
+│   │   ├── settings
+│   │   │   ├── about.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── jobs.tsx
+│   │   │   ├── logs.tsx
+│   │   │   ├── main.tsx
+│   │   │   ├── notifications
+│   │   │   │   ├── discord.tsx
+│   │   │   │   ├── email.tsx
+│   │   │   │   ├── gotify.tsx
+│   │   │   │   ├── lunasea.tsx
+│   │   │   │   ├── pushbullet.tsx
+│   │   │   │   ├── pushover.tsx
+│   │   │   │   ├── slack.tsx
+│   │   │   │   ├── telegram.tsx
+│   │   │   │   ├── webhook.tsx
+│   │   │   │   └── webpush.tsx
+│   │   │   ├── plex.tsx
+│   │   │   ├── services.tsx
+│   │   │   └── users.tsx
+│   │   ├── setup.tsx
+│   │   ├── tv
+│   │   │   └── [tvId]
+│   │   │       ├── cast.tsx
+│   │   │       ├── crew.tsx
+│   │   │       ├── index.tsx
+│   │   │       ├── recommendations.tsx
+│   │   │       └── similar.tsx
+│   │   └── users
+│   │       ├── index.tsx
+│   │       └── [userId]
+│   │           ├── index.tsx
+│   │           ├── requests.tsx
+│   │           ├── settings
+│   │           │   ├── index.tsx
+│   │           │   ├── main.tsx
+│   │           │   ├── notifications
+│   │           │   │   ├── discord.tsx
+│   │           │   │   ├── email.tsx
+│   │           │   │   ├── pushbullet.tsx
+│   │           │   │   ├── pushover.tsx
+│   │           │   │   ├── telegram.tsx
+│   │           │   │   └── webpush.tsx
+│   │           │   ├── password.tsx
+│   │           │   └── permissions.tsx
+│   │           └── watchlist.tsx
+│   ├── styles
+│   │   └── globals.css
+│   ├── types
+│   │   ├── custom.d.ts
+│   │   └── react-intl-auto.d.ts
+│   └── utils
+│       ├── creditHelpers.ts
+│       ├── numberHelpers.ts
+│       ├── plex.ts
+│       ├── polyfillIntl.ts
+│       ├── refreshIntervalHelper.ts
+│       └── typeHelpers.ts
+├── stylelint.config.js
+├── tailwind.config.js
+├── tsconfig.json
+└── yarn.lock
+
+291 directories, 762 files
